@@ -4,7 +4,7 @@ MLX_DIR = ./mlx
 MLX_FLAGS = -L$(MLX_DIR) -lm -lmlx -lXext -lX11
 LIBFT_DIR = ./libft
 NAME = cub3d
-SRC = \
+SRC = 
 
 OBJ = $(SRC:.c=.o)
 
