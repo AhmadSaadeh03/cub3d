@@ -6,7 +6,7 @@
 /*   By: asaadeh <asaadeh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 17:31:14 by asaadeh           #+#    #+#             */
-/*   Updated: 2025/08/11 18:19:36 by asaadeh          ###   ########.fr       */
+/*   Updated: 2025/08/12 16:30:21 by asaadeh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,5 +49,10 @@ int set_north(t_parsing *parsing,t_directions *directions);
 int set_south(t_parsing *parsing,t_directions *directions);
 int set_east(t_parsing *parsing,t_directions *directions);
 int set_west(t_parsing *parsing,t_directions *directions);
-int set_texture_path(t_parsing *parsing, char **destination,char *str);
+int set_dir_path(t_parsing *parsing, char **destination,char *str);
+void free_file(char **file);
+void free_directions(t_directions *directions);
+void free_parsing(t_parsing *parsing);
+void exit_and_error(t_parsing *parsing ,t_directions *directions,char *str);
+void set_directions(t_parsing *parsing,t_directions *directions);
 #endif

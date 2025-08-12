@@ -6,70 +6,12 @@
 /*   By: asaadeh <asaadeh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 18:56:44 by asaadeh           #+#    #+#             */
-/*   Updated: 2025/08/11 20:01:52 by asaadeh          ###   ########.fr       */
+/*   Updated: 2025/08/12 20:44:41 by asaadeh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
-void free_file(char **file)
-{
-    int i = 0;
-    if (!file)
-        return;
-    while (file[i])
-        free(file[i++]);
-    free(file);
-}
-void free_directions(t_directions *directions)
-{
-    if (directions->east)
-        free(directions->east);
-    if (directions->north)
-        free(directions->north);
-    if (directions->south)
-        free(directions->south);
-    if (directions->west)
-        free(directions->west);
-    if (directions)
-        free(directions);
-}
-void free_parsing(t_parsing *parsing)
-{
-    if (parsing->file)
-        free_file(parsing->file);
-    if (parsing)
-        free(parsing);
-}
 
-void exit_and_error(t_parsing *parsing ,t_directions *directions,char *str)
-{
-    free_parsing(parsing);
-    free_directions(directions);
-    printf("Error\n%s",str);
-    exit (1);
-}
-void set_directions(t_parsing *parsing,t_directions *directions)
-{
-    // if (!set_north(parsing,directions))
-    //     return 0;
-    //  if (!set_south(parsing,directions))
-    //     return 0;
-    // if (!set_east(parsing,directions))
-    //     return 0;
-    //  if (!set_west(parsing,directions))
-    //     return 0;
-    // return 1;
-        init_directions(directions);
-
-        if (!set_texture_path(parsing, &directions->north, "NO"))
-            exit_and_error(parsing,directions,"uncorrect NO");
-        if (!set_texture_path(parsing, &directions->south, "SO"))
-             exit_and_error(parsing,directions,"uncorrect SO");
-        if (!set_texture_path(parsing, &directions->east, "EA"))
-            exit_and_error(parsing,directions,"uncorrect EA");
-        if (!set_texture_path(parsing, &directions->west, "WE"))
-            exit_and_error(parsing,directions,"uncorrect WE");
-    }
 // void init_colors(t_colors *colors)
 // {
 //     colors->ceil[0] = 0;
@@ -159,6 +101,160 @@ int valid_extension(char **argv)
     return 0;
 }
 
+int check_lines(t_parsing *parsing)
+{
+    int i = 0;
+    int j = 0;
+    int not_empty = 0;
+    int stop = 0;
+    while (parsing->file[i])
+    {
+        j = 0;
+        while (parsing->file[i][j] && parsing->file[i][j] != '\n')
+        {
+            if(parsing->file[i][j] == '1' && parsing->file[i][j+1] == '1' && parsing->file[i][j+2] == '1' && parsing->file[i][j+3] == '1')
+            {
+                stop = 1;
+                break;
+            }
+            if (ft_isalnum(parsing->file[i][j]))
+            {
+                not_empty++;
+                break;
+            }
+            j++;
+        }
+        if (stop)
+            break;
+        i++;
+    }
+    if (not_empty != 6)
+        return 0;
+    return 1;
+}
+int first_line(t_parsing *parsing)
+{
+    int i = 0;
+    int j = 0;
+    int save_line = 0;
+    int found = 0;
+    while (parsing->file[i])
+    {
+        j = 0;
+        while (parsing->file[i][j] && parsing->file[i][j+3])
+        {
+            if (parsing->file[i][j] == '1' && parsing->file[i][j+1] == '1' && parsing->file[i][j+2] == '1' && parsing->file[i][j+3] == '1')
+            {
+                save_line  = i ;
+                found = 1;
+                break;
+            }
+            j++;
+        }
+        if (found)
+            break;
+        i++;
+    }
+    if (!found)
+        return 0;
+    return save_line;
+    // j = 0;
+    // while (parsing->file[save_line])
+    // {
+    //     j = 0;
+    //     while (parsing->file[save_line][j])
+    //     {
+    //         printf("%c",parsing->file[save_line][j]);
+    //         j++;
+    //     }
+    //     save_line++;
+    // }
+    
+    return 1;
+}
+// int init_map(t_parsing *parsing)
+// {
+//     int line = first_line(parsing);
+//     if (!line)
+//     {
+//         printf("Error\n on the map");
+//         exit(1);
+//     }
+//     int j = 0;
+//     int save_line = line;
+//     t_vars *vars = malloc(sizeof(t_vars));
+//     if (!vars)
+//         return 0;
+//     while (parsing->file[line])
+//         line++;
+//     int height = line - save_line;
+
+//     vars->map = malloc(sizeof(char *) * (height + 1));
+//     if (!vars->map)
+//         return 0;
+    
+//     int i = 0;
+//     j = 0;
+//     while (i < height)
+//     {
+//         j = 0;
+//         while (parsing->file[save_line][j] && parsing->file[save_line][j] != '\n')
+//             j++;
+//         vars->map[save_line] = malloc(sizeof(char) * (j + 1));
+//         ft_strlcpy(vars->map[save_line],parsing->file[save_line],ft_strlen(parsing->file[save_line]));
+//         save_line++;
+//         i++;
+//     }
+//     return 1;
+// }
+int init_map(t_parsing *parsing)
+{
+    int line = first_line(parsing);
+    if (!line)
+    {
+        printf("Error\n on the map\n");
+        exit(1);
+    }
+    int save_line = line;
+
+    t_vars *vars = malloc(sizeof(t_vars));
+    if (!vars)
+        return 0;
+    while (parsing->file[line])
+        line++;
+    int height = line - save_line;
+    vars->map = malloc(sizeof(char *) * (height + 1));
+    if (!vars->map)
+    {
+        free(vars);
+        return 0;
+    }
+    int i = 0;
+    while (i < height)
+    {
+        int j = 0;
+        while (parsing->file[save_line][j] && parsing->file[save_line][j] != '\n')
+            j++;
+        vars->map[i] = malloc(sizeof(char) * (j + 1));
+        if (!vars->map[i])
+        {
+            int k = 0;
+            while (k < i)
+            {
+                free(vars->map[k]);
+                free(vars->map);
+                free(vars);
+            }     
+            return 0;
+        }
+        ft_strlcpy(vars->map[i], parsing->file[save_line], j + 1);
+        save_line++;
+        i++;
+    }
+    vars->map[height] = NULL;
+    return 1;
+}
+
 int main(int argc ,char **argv)
 {
     if (argc != 2)
@@ -185,12 +281,19 @@ int main(int argc ,char **argv)
             free(directions);
             return 1;
     }
+    if (!check_lines(parsing))
+    {
+        printf("Error\nthere is line or more missing");
+        free_parsing(parsing);
+        free(directions);
+        return 1;
+    }
     set_directions(parsing,directions);
-    //set_ceil(parsing);
+    init_map(parsing);
     printf("east :%s\n",directions->east);
     printf("west :%s\n",directions->west);
     printf("north :%s\n",directions->north);
-    printf("south :%s",directions->south);
+    printf("south :%s\n",directions->south);
     free_parsing(parsing);
     free_directions(directions);
 }

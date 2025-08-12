@@ -6,7 +6,7 @@
 /*   By: asaadeh <asaadeh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 16:37:54 by asaadeh           #+#    #+#             */
-/*   Updated: 2025/08/11 18:55:08 by asaadeh          ###   ########.fr       */
+/*   Updated: 2025/08/12 20:25:29 by asaadeh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -244,8 +244,7 @@ void init_directions(t_directions *directions)
 //     return 0;
     
 // }
-
-int set_texture_path(t_parsing *parsing, char **destination,char *str)
+int set_dir_path(t_parsing *parsing, char **destination,char *str)
 {
     int i = 0;
     int  j = 0;
@@ -253,11 +252,10 @@ int set_texture_path(t_parsing *parsing, char **destination,char *str)
     int end = 0 ;
     int k = 0;
     int found = 0;
-
+    int check = 0;
     while (parsing->file[i])
     {
         j = 0;
-
         while (parsing->file[i][j])
         {
             if(parsing->file[i][j] == '1' && parsing->file[i][j+1] == '1' && parsing->file[i][j+2] == '1' && parsing->file[i][j+3] == '1')
@@ -265,28 +263,36 @@ int set_texture_path(t_parsing *parsing, char **destination,char *str)
             if (parsing->file[i][j] == str[0] && parsing->file[i][j + 1] == str[1])
             {
                 j += 2;
-
                 while (parsing->file[i][j] == ' ' || parsing->file[i][j] == '\t')
                     j++;
 
                 if (parsing->file[i][j] != '.' || parsing->file[i][j+1] != '/')
                     return 0;
                 start = j;
-                while (parsing->file[i][j] && parsing->file[i][j] != '\n')
+                while ((parsing->file[i][j] && parsing->file[i][j] != '\n') && (parsing->file[i][j] != ' '&& parsing->file[i][j] != '\t'))
                     j++;
-
                 end = j;
                 found = 1;
                 break;
             }
             j++;
-        }
+        }    
         if (found)
             break;
         i++;
     }
     if (!found)
         return 0;
+     check = j;
+        while (parsing->file[i][check] != '\n')
+        {
+            if(ft_isalpha(parsing->file[i][check]))
+            {
+                printf("errorororroor%d",check);
+                return 0;
+            }
+            check++;
+        }
     *destination = malloc(end - start + 1);
     if (!*destination)
         return 0;
@@ -294,6 +300,54 @@ int set_texture_path(t_parsing *parsing, char **destination,char *str)
     while (start < end)
         (*destination)[k++] = parsing->file[i][start++];
     (*destination)[k] = '\0';
-
     return 1;
 }
+int is_one_time(t_parsing *parsing)
+{
+    int i = 0;
+    int j = 0;
+    int count = 0;
+    while (parsing->file[i])
+    {
+        j = 0;
+        while (parsing->file[i][j])
+        {
+            if ((parsing->file[i][j] == 'N' && parsing->file[i][j+1] == 'O') 
+            || (parsing->file[i][j] == 'S' && parsing->file[i][j+1] == 'O'))
+                count++;
+             if ((parsing->file[i][j] == 'E' && parsing->file[i][j+1] == 'A')
+              || (parsing->file[i][j] == 'W' && parsing->file[i][j+1] == 'E'))
+                count++;
+            j++;
+        }
+        
+        i++;
+    }
+    if (count != 4)
+        return 0;
+    return 1;
+    
+}
+void set_directions(t_parsing *parsing,t_directions *directions)
+{
+    // if (!set_north(parsing,directions))
+    //     return 0;
+    //  if (!set_south(parsing,directions))
+    //     return 0;
+    // if (!set_east(parsing,directions))
+    //     return 0;
+    //  if (!set_west(parsing,directions))
+    //     return 0;
+    // return 1;
+        init_directions(directions);
+        if (!is_one_time(parsing))
+            exit_and_error(parsing,directions,"one of the directions is more than one time");
+        if (!set_dir_path(parsing, &directions->north, "NO"))
+            exit_and_error(parsing,directions,"uncorrect NO");
+        if (!set_dir_path(parsing, &directions->south, "SO"))
+             exit_and_error(parsing,directions,"uncorrect SO");
+        if (!set_dir_path(parsing, &directions->east, "EA"))
+            exit_and_error(parsing,directions,"uncorrect EA");
+        if (!set_dir_path(parsing, &directions->west, "WE"))
+            exit_and_error(parsing,directions,"uncorrect WE");
+    }
