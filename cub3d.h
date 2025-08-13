@@ -6,7 +6,7 @@
 /*   By: asaadeh <asaadeh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 17:31:14 by asaadeh           #+#    #+#             */
-/*   Updated: 2025/08/12 16:30:21 by asaadeh          ###   ########.fr       */
+/*   Updated: 2025/08/13 21:08:55 by asaadeh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,9 @@ typedef struct s_directions
 typedef struct s_vars
 {
     char    **map;
+    char    facing_dir;
+    double  xp_pos;
+    double  yp_pos;
 }   t_vars;
 
 typedef struct s_parsing
@@ -55,4 +58,11 @@ void free_directions(t_directions *directions);
 void free_parsing(t_parsing *parsing);
 void exit_and_error(t_parsing *parsing ,t_directions *directions,char *str);
 void set_directions(t_parsing *parsing,t_directions *directions);
+
+
+int check_elements(t_vars *vars);
+int check_taps(t_vars *vars);
+t_vars *init_map(t_parsing *parsing);
+int check_walls(t_vars *vars);
+int first_line(t_parsing *parsing);
 #endif

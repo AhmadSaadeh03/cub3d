@@ -6,7 +6,7 @@
 /*   By: asaadeh <asaadeh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 18:56:44 by asaadeh           #+#    #+#             */
-/*   Updated: 2025/08/12 20:44:41 by asaadeh          ###   ########.fr       */
+/*   Updated: 2025/08/13 21:05:53 by asaadeh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,7 +141,7 @@ int first_line(t_parsing *parsing)
     while (parsing->file[i])
     {
         j = 0;
-        while (parsing->file[i][j] && parsing->file[i][j+3])
+        while (parsing->file[i][j])
         {
             if (parsing->file[i][j] == '1' && parsing->file[i][j+1] == '1' && parsing->file[i][j+2] == '1' && parsing->file[i][j+3] == '1')
             {
@@ -207,58 +207,11 @@ int first_line(t_parsing *parsing)
 //     }
 //     return 1;
 // }
-int init_map(t_parsing *parsing)
-{
-    int line = first_line(parsing);
-    if (!line)
-    {
-        printf("Error\n on the map\n");
-        exit(1);
-    }
-    int save_line = line;
-
-    t_vars *vars = malloc(sizeof(t_vars));
-    if (!vars)
-        return 0;
-    while (parsing->file[line])
-        line++;
-    int height = line - save_line;
-    vars->map = malloc(sizeof(char *) * (height + 1));
-    if (!vars->map)
-    {
-        free(vars);
-        return 0;
-    }
-    int i = 0;
-    while (i < height)
-    {
-        int j = 0;
-        while (parsing->file[save_line][j] && parsing->file[save_line][j] != '\n')
-            j++;
-        vars->map[i] = malloc(sizeof(char) * (j + 1));
-        if (!vars->map[i])
-        {
-            int k = 0;
-            while (k < i)
-            {
-                free(vars->map[k]);
-                free(vars->map);
-                free(vars);
-            }     
-            return 0;
-        }
-        ft_strlcpy(vars->map[i], parsing->file[save_line], j + 1);
-        save_line++;
-        i++;
-    }
-    vars->map[height] = NULL;
-    return 1;
-}
-
 int main(int argc ,char **argv)
 {
     if (argc != 2)
         return 1;
+    int i = 0;
     if(!valid_extension(argv))
     {
         printf("Error\n the extension of the file is wrong");
@@ -289,11 +242,37 @@ int main(int argc ,char **argv)
         return 1;
     }
     set_directions(parsing,directions);
-    init_map(parsing);
+    t_vars *vars =  init_map(parsing);
+    if (!vars)
+    {
+        free_parsing(parsing);
+        free_directions(directions);
+        return 1;
+    }
+    if (!check_walls(vars))
+    {
+        free_parsing(parsing);
+        free_directions(directions);
+        while (vars->map[i])
+        {
+            free(vars->map[i]);
+            i++;
+        }
+        free(vars->map);
+        free(vars);
+        return 1;
+    }
     printf("east :%s\n",directions->east);
     printf("west :%s\n",directions->west);
     printf("north :%s\n",directions->north);
     printf("south :%s\n",directions->south);
     free_parsing(parsing);
     free_directions(directions);
+    while (vars->map[i])
+    {
+        free(vars->map[i]);
+        i++;
+    }
+    free(vars->map);
+    free(vars);
 }

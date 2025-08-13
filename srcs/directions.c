@@ -6,7 +6,7 @@
 /*   By: asaadeh <asaadeh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 16:37:54 by asaadeh           #+#    #+#             */
-/*   Updated: 2025/08/12 20:25:29 by asaadeh          ###   ########.fr       */
+/*   Updated: 2025/08/13 15:41:56 by asaadeh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -284,6 +284,7 @@ int set_dir_path(t_parsing *parsing, char **destination,char *str)
     if (!found)
         return 0;
      check = j;
+     //here i checked if there is any letter after path // 
         while (parsing->file[i][check] != '\n')
         {
             if(ft_isalpha(parsing->file[i][check]))
