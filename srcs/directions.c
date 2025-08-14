@@ -6,7 +6,7 @@
 /*   By: asaadeh <asaadeh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 16:37:54 by asaadeh           #+#    #+#             */
-/*   Updated: 2025/08/13 15:41:56 by asaadeh          ###   ########.fr       */
+/*   Updated: 2025/08/14 14:56:21 by asaadeh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -319,12 +319,14 @@ int is_one_time(t_parsing *parsing)
              if ((parsing->file[i][j] == 'E' && parsing->file[i][j+1] == 'A')
               || (parsing->file[i][j] == 'W' && parsing->file[i][j+1] == 'E'))
                 count++;
+             if ((parsing->file[i][j] == 'F' || parsing->file[i][j+1] == 'C'))
+                count++;
             j++;
         }
         
         i++;
     }
-    if (count != 4)
+    if (count != 6)
         return 0;
     return 1;
     
@@ -342,7 +344,7 @@ void set_directions(t_parsing *parsing,t_directions *directions)
     // return 1;
         init_directions(directions);
         if (!is_one_time(parsing))
-            exit_and_error(parsing,directions,"one of the directions is more than one time");
+            exit_and_error(parsing,directions,"one or more of the resources is missing");
         if (!set_dir_path(parsing, &directions->north, "NO"))
             exit_and_error(parsing,directions,"uncorrect NO");
         if (!set_dir_path(parsing, &directions->south, "SO"))

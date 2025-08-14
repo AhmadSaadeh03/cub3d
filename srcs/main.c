@@ -6,7 +6,7 @@
 /*   By: asaadeh <asaadeh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 18:56:44 by asaadeh           #+#    #+#             */
-/*   Updated: 2025/08/13 21:05:53 by asaadeh          ###   ########.fr       */
+/*   Updated: 2025/08/14 20:20:49 by asaadeh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,18 +158,6 @@ int first_line(t_parsing *parsing)
     if (!found)
         return 0;
     return save_line;
-    // j = 0;
-    // while (parsing->file[save_line])
-    // {
-    //     j = 0;
-    //     while (parsing->file[save_line][j])
-    //     {
-    //         printf("%c",parsing->file[save_line][j]);
-    //         j++;
-    //     }
-    //     save_line++;
-    // }
-    
     return 1;
 }
 // int init_map(t_parsing *parsing)
@@ -207,6 +195,7 @@ int first_line(t_parsing *parsing)
 //     }
 //     return 1;
 // }
+
 int main(int argc ,char **argv)
 {
     if (argc != 2)
@@ -262,6 +251,16 @@ int main(int argc ,char **argv)
         free(vars);
         return 1;
     }
+    if (!init_ceil(parsing))
+    {
+        free(parsing->ceil);
+    }
+    if (!init_floor(parsing))
+    {
+        free(parsing->floor);
+    }
+    printf("ceil:%s\n",parsing->ceil);
+    printf("floor:%s\n",parsing->floor);
     printf("east :%s\n",directions->east);
     printf("west :%s\n",directions->west);
     printf("north :%s\n",directions->north);
