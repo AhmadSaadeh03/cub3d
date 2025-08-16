@@ -6,49 +6,12 @@
 /*   By: asaadeh <asaadeh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 18:56:44 by asaadeh           #+#    #+#             */
-/*   Updated: 2025/08/16 16:35:04 by asaadeh          ###   ########.fr       */
+/*   Updated: 2025/08/16 17:04:18 by asaadeh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-// void init_colors(t_colors *colors)
-// {
-//     colors->ceil[0] = 0;
-//     colors->ceil[1] = 0;
-//     colors->ceil[2] = 0;
-//     colors->floor[0] = 0;
-//     colors->floor[1] = 0;
-//     colors->floor[2] = 0;
-// }
-// int set_ceil(t_parsing *parsing)
-// {
-//     t_colors *colors = malloc(sizeof(t_colors));
-//     if (!colors)
-//         return 0;
-//     init_colors(colors);
-//     int i = 0;
-//     int j = 0;
-//     while (parsing->file[i])
-//     {
-//         j = 0;
-//         while (parsing->file[i][j])
-//         {
-//             if (parsing->file[i][j] == 'C' && !ft_isalpha(parsing->file[i][j+1]))
-//             {
-//                 while (parsing->file[i][j] == ' ' || parsing->file[i][j] == '\t')
-//                     j++;
-                
-
-//             }
-//             j++;
-//         }
-        
-//         i++;
-//     }
-    
-
-// }
 int count_lines(char *file_name)
 {
     int fd;
@@ -101,7 +64,7 @@ int valid_extension(char **argv)
     return 0;
 }
 
-int check_lines(t_parsing *parsing)
+void check_lines(t_parsing *parsing,t_vars *vars,t_directions *directions)
 {
     int i = 0;
     int j = 0;
@@ -129,8 +92,11 @@ int check_lines(t_parsing *parsing)
         i++;
     }
     if (not_empty != 6)
-        return 0;
-    return 1;
+    {
+        printf("Error\nthere is line or more missing");
+        free_all_and_exit(parsing,vars,directions);
+    }
+    init_ceil(parsing,vars,directions);
 }
 int first_line(t_parsing *parsing)
 {
@@ -227,17 +193,8 @@ int main(int argc ,char **argv)
     t_vars *vars =  init_map(parsing);
     if (!vars)
         free_all_and_exit(parsing,vars,directions);
-    if (!check_lines(parsing))
-    {
-        printf("Error\nthere is line or more missing");
-        free_all_and_exit(parsing,vars,directions);
-    }
-    if (!check_walls(vars))
-        free_all_and_exit(parsing,vars,directions);
-    if (!init_ceil(parsing))
-        free_all_and_exit(parsing,vars,directions);
-    if (!init_floor(parsing))
-        free_all_and_exit(parsing,vars,directions);
+    check_lines(parsing,vars,directions);
+    check_walls(parsing,vars,directions);
     printf("ceil:%s\n",parsing->ceil);
     printf("floor:%s\n",parsing->floor);
     printf("east :%s\n",directions->east);

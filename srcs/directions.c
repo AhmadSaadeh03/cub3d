@@ -6,7 +6,7 @@
 /*   By: asaadeh <asaadeh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 16:37:54 by asaadeh           #+#    #+#             */
-/*   Updated: 2025/08/16 16:21:49 by asaadeh          ###   ########.fr       */
+/*   Updated: 2025/08/16 16:38:58 by asaadeh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -325,15 +325,6 @@ int is_one_time(t_parsing *parsing)
 }
 void set_directions(t_parsing *parsing,t_directions *directions)
 {
-    // if (!set_north(parsing,directions))
-    //     return 0;
-    //  if (!set_south(parsing,directions))
-    //     return 0;
-    // if (!set_east(parsing,directions))
-    //     return 0;
-    //  if (!set_west(parsing,directions))
-    //     return 0;
-    // return 1;
         init_directions(directions);
         if (!is_one_time(parsing))
             exit_and_error(parsing,directions,"one or more of the resources is missing");

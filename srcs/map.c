@@ -6,13 +6,13 @@
 /*   By: asaadeh <asaadeh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 21:04:54 by asaadeh           #+#    #+#             */
-/*   Updated: 2025/08/16 16:26:54 by asaadeh          ###   ########.fr       */
+/*   Updated: 2025/08/16 16:50:05 by asaadeh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-int check_elements(t_vars *vars)
+void check_elements(t_parsing *parsing,t_vars *vars,t_directions *directions)
 {
     int i = 0;
     int j = 0;
@@ -39,7 +39,7 @@ int check_elements(t_vars *vars)
             else
             {
                 printf("Error\nundefined element inside the map");
-                return 0;
+                free_all_and_exit(parsing,vars,directions);
             }
         }
         i++;
@@ -47,11 +47,10 @@ int check_elements(t_vars *vars)
     if (count != 1)
     {
         printf("Error\nthere is one or more than one player");
-        return 0;
+        free_all_and_exit(parsing,vars,directions);
     }
-    return 1;
 }
-int check_taps(t_vars *vars)
+void check_taps(t_parsing *parsing,t_vars *vars,t_directions *directions)
 {
     int i = 0;
 
@@ -73,7 +72,7 @@ int check_taps(t_vars *vars)
         if (first == -1)
         {
             printf("Error\nempty line inside map");
-            return 0;
+            free_all_and_exit(parsing,vars,directions);
         }
         j = 0;
         while (vars->map[i][j] && vars->map[i][j] != '\n')
@@ -88,18 +87,16 @@ int check_taps(t_vars *vars)
             if (vars->map[i][j] == '\t')
             {
                 printf("Error\nTab found at line %d, column %d\n", i, j);
-                return 0;
+                free_all_and_exit(parsing,vars,directions);
             }
             j++;
         }
         i++;
     }
-    if (!check_elements(vars))
-        return 0;
-    return 1;
+    check_elements(parsing,vars,directions);
 }
 
-int check_walls_two(t_vars *vars)
+void check_walls_two(t_parsing *parsing,t_vars *vars,t_directions *directions)
 {
     int i = 0;
     int j = 0;
@@ -119,7 +116,7 @@ int check_walls_two(t_vars *vars)
                 else
                 {
                     printf("Error\nnot sourrounded by walls first index");
-                    return 0;
+                    free_all_and_exit(parsing,vars,directions);
                 }
             }
             j++;
@@ -144,20 +141,18 @@ int check_walls_two(t_vars *vars)
             else
             {
                 printf("Error\nnot sourrounded by walls last index");
-                return 0;
+                free_all_and_exit(parsing,vars,directions);
             }
         }
         i++;
     }
-    return 1;  
 }
-int check_walls(t_vars *vars)
+void check_walls(t_parsing *parsing,t_vars *vars,t_directions *directions)
 {
     int i = 0;
     int j = 0;
     int final_line;
-    if (!check_taps(vars))
-        return 0;
+    check_taps(parsing,vars,directions);
     while (vars->map[i])
     {
         if(vars->map[i][j] == '1' && vars->map[i][j+1] == '1' && vars->map[i][j+2] == '1'  && vars->map[i][j+3] == '1')
@@ -171,7 +166,7 @@ int check_walls(t_vars *vars)
         else
         {
             printf("Error\nthe map not sourrounded by walls on top");
-            return 0;
+            free_all_and_exit(parsing,vars,directions);
         }
     }
     j = 0;
@@ -182,12 +177,10 @@ int check_walls(t_vars *vars)
         else
         {
             printf("Error\nthe map not sourrounded by walls on bottom");
-            return 0;
+            free_all_and_exit(parsing,vars,directions);
         }
     }
-    if (!check_walls_two(vars))
-        return 0;
-    return 1;
+    check_walls_two(parsing,vars,directions);
 }
 t_vars *init_map(t_parsing *parsing)
 {

@@ -4,10 +4,10 @@
 
       NO     ./path_to_the_north_texture
 
-        F                   225,         0 -> 255  ,     0  
+        F0                 225,      0 255  ,     0  
         SO               ./path_to_the_south_texture
+                C 29,   234    ,           45
 
-                C 29,        234    ,           45
                  EA     ./path_to_the_east_texture     
     
         111111111111111111111111

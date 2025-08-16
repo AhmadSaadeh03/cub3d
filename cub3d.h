@@ -6,7 +6,7 @@
 /*   By: asaadeh <asaadeh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 17:31:14 by asaadeh           #+#    #+#             */
-/*   Updated: 2025/08/16 16:30:29 by asaadeh          ###   ########.fr       */
+/*   Updated: 2025/08/16 17:00:18 by asaadeh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,15 +69,15 @@ void exit_and_error(t_parsing *parsing ,t_directions *directions,char *str);
 void set_directions(t_parsing *parsing,t_directions *directions);
 
 
-int check_elements(t_vars *vars);
-int check_taps(t_vars *vars);
+void check_elements(t_parsing *parsing,t_vars *vars,t_directions *directions);
+void check_taps(t_parsing *parsing,t_vars *vars,t_directions *directions);
 t_vars *init_map(t_parsing *parsing);
-int check_walls(t_vars *vars);
+void check_walls(t_parsing *parsing,t_vars *vars,t_directions *directions);
 int first_line(t_parsing *parsing);
 
 void    init_parsing(t_parsing  *parsing);
 void free_all_and_exit(t_parsing *parsing , t_vars *vars,t_directions *directions);
 
-int init_ceil(t_parsing *parsing);
-int init_floor(t_parsing *parsing);
+void init_ceil(t_parsing *parsing,t_vars *vars,t_directions *directions);
+void init_floor(t_parsing *parsing,t_vars *vars,t_directions *directions);
 #endif

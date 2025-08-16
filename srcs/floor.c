@@ -6,12 +6,60 @@
 /*   By: asaadeh <asaadeh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 20:16:11 by asaadeh           #+#    #+#             */
-/*   Updated: 2025/08/16 16:32:26 by asaadeh          ###   ########.fr       */
+/*   Updated: 2025/08/16 17:45:36 by asaadeh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
+void check_comma_in_floor(t_parsing *parsing,t_vars *vars,t_directions *directions)
+{
+    int i = 0;
+    int count_comma = 0;
+    while (parsing->floor[i])
+    {
+        if (parsing->floor[i] == ',')
+        {
+            if (!ft_isdigit(parsing->floor[i+1]) || !ft_isdigit(parsing->floor[i-1]))
+            {
+                printf("Error\non the place of comma");
+                free_all_and_exit(parsing,vars,directions);
+            }
+            count_comma++;
+        }
+        if (!ft_isalnum(parsing->floor[i]) && parsing->floor[i] != ',' && parsing->floor[i] != 'F')
+        {
+            printf("Error\ninvalid char on floor line");
+            free_all_and_exit(parsing,vars,directions);
+        }
+        i++;
+    }
+    if (count_comma != 2)
+    {
+        printf("Error\nthe number of comma is wrong");
+        free_all_and_exit(parsing,vars,directions);
+    }
+}
+void check_letter_on_floor(t_parsing *parsing,t_vars *vars,t_directions *directions)
+{
+    int i = 0;
+    int count = 0;
+    char c;
+    while (parsing->file[parsing->floor_line][i] != '\n' && parsing->file[parsing->floor_line][i])
+    {
+        if (ft_isalpha(parsing->file[parsing->floor_line][i]))
+        {
+            c = parsing->file[parsing->floor_line][i];
+            count++;
+        }
+       i++;
+    }
+    if (count != 1 || c != 'F')
+    {
+        printf("Error\nto many letters on floor line");
+        free_all_and_exit(parsing,vars,directions);
+    } 
+}
 int get_floor_line(t_parsing *parsing)
 {
     int i = 0;
@@ -34,13 +82,11 @@ int get_floor_line(t_parsing *parsing)
     return 0;
 }
 
-int set_floor(t_parsing *parsing)
+void set_floor(t_parsing *parsing,t_vars *vars,t_directions *directions)
 {
     int j = 0;
     if (!get_floor_line(parsing))
-        return 0;
-    //parsing->first_floor = -1;
-    //parsing->last_floor = -1;
+        free_all_and_exit(parsing,vars,directions);
     while (parsing->file[parsing->floor_line][j] && parsing->file[parsing->floor_line][j] != '\n')
     {
 
@@ -57,16 +103,15 @@ int set_floor(t_parsing *parsing)
         j++;
     }
     if (parsing->first_floor  == -1 || parsing->last_floor == -1)
-        return 0;
-    return 1;
+       free_all_and_exit(parsing,vars,directions);
 }
-int assign_floor(t_parsing *parsing, int count)
+void assign_floor(t_parsing *parsing,t_vars *vars,t_directions *directions, int count)
 {
     int j = 0;
     int k = 0;
     parsing->floor = malloc(sizeof(char) * (count + 1));
     if (!parsing->floor)
-        return 0;
+        free_all_and_exit(parsing,vars,directions);
     while (parsing->file[parsing->floor_line][j] && k < count)
     {
         if (parsing->file[parsing->floor_line][j] != ' ' &&
@@ -78,14 +123,12 @@ int assign_floor(t_parsing *parsing, int count)
         j++;
     }
     parsing->floor[k] = '\0';
-    return 1;
 }
 
-int init_floor(t_parsing *parsing)
+void init_floor(t_parsing *parsing,t_vars *vars,t_directions *directions)
 {
     int j = 0;
-    if (!set_floor(parsing))   
-         return 0;
+    set_floor(parsing,vars,directions);
     int save_first = parsing->first_floor;
     int save_last = parsing->last_floor;
     int count = 0; 
@@ -97,8 +140,7 @@ int init_floor(t_parsing *parsing)
     }
     parsing->first_floor =save_first ;
     parsing->last_floor = save_last;
-    //parsing->floor = NULL;
-    if (!assign_floor(parsing,count))
-        return 0;
-    return 1; 
+    assign_floor(parsing,vars,directions,count);
+    check_letter_on_floor(parsing,vars,directions);
+    check_comma_in_floor(parsing,vars,directions);
 }
