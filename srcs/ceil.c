@@ -6,7 +6,7 @@
 /*   By: asaadeh <asaadeh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 20:07:24 by asaadeh           #+#    #+#             */
-/*   Updated: 2025/08/14 20:09:26 by asaadeh          ###   ########.fr       */
+/*   Updated: 2025/08/16 16:35:41 by asaadeh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int get_ceil_line(t_parsing *parsing)
 {
     int i = 0;
     int j = 0;
-    parsing->ceil_line = 0;
+    //parsing->ceil_line = 0;
     while (parsing->file[i])
     {
         j = 0;
@@ -39,8 +39,8 @@ int set_ceil(t_parsing *parsing)
     int j = 0;
     if (!get_ceil_line(parsing))
         return 0;
-    parsing->first_ceil = -1;
-    parsing->last_ceil = -1;
+    //parsing->first_ceil = -1;
+    //parsing->last_ceil = -1;
     while (parsing->file[parsing->ceil_line][j] && parsing->file[parsing->ceil_line][j] != '\n')
     {
 
@@ -101,7 +101,6 @@ int init_ceil(t_parsing *parsing)
     }
     parsing->first_ceil =save_first ;
     parsing->last_ceil = save_last;
-    parsing->ceil = NULL;
     if (!assign_ceil(parsing,count))
         return 0;
     return 1; 

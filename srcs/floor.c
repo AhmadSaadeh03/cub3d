@@ -6,7 +6,7 @@
 /*   By: asaadeh <asaadeh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 20:16:11 by asaadeh           #+#    #+#             */
-/*   Updated: 2025/08/14 20:23:16 by asaadeh          ###   ########.fr       */
+/*   Updated: 2025/08/16 16:32:26 by asaadeh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,8 @@ int set_floor(t_parsing *parsing)
     int j = 0;
     if (!get_floor_line(parsing))
         return 0;
-    parsing->first_floor = -1;
-    parsing->last_floor = -1;
+    //parsing->first_floor = -1;
+    //parsing->last_floor = -1;
     while (parsing->file[parsing->floor_line][j] && parsing->file[parsing->floor_line][j] != '\n')
     {
 
@@ -97,7 +97,7 @@ int init_floor(t_parsing *parsing)
     }
     parsing->first_floor =save_first ;
     parsing->last_floor = save_last;
-    parsing->floor = NULL;
+    //parsing->floor = NULL;
     if (!assign_floor(parsing,count))
         return 0;
     return 1; 

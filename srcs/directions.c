@@ -6,19 +6,11 @@
 /*   By: asaadeh <asaadeh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 16:37:54 by asaadeh           #+#    #+#             */
-/*   Updated: 2025/08/14 14:56:21 by asaadeh          ###   ########.fr       */
+/*   Updated: 2025/08/16 16:21:49 by asaadeh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
-
-void init_directions(t_directions *directions)
-{
-    directions->east = NULL;
-    directions->north = NULL;
-    directions->south = NULL;
-    directions->west = NULL;
-}
 // int set_north(t_parsing *parsing,t_directions *directions)
 // {
 //     int i = 0;

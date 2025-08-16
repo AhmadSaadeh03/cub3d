@@ -6,7 +6,7 @@
 /*   By: asaadeh <asaadeh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 21:04:54 by asaadeh           #+#    #+#             */
-/*   Updated: 2025/08/13 21:06:20 by asaadeh          ###   ########.fr       */
+/*   Updated: 2025/08/16 16:26:54 by asaadeh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,9 +201,8 @@ t_vars *init_map(t_parsing *parsing)
 
     t_vars *vars = malloc(sizeof(t_vars));
     if (!vars)
-    {
-        
-    }
+        return NULL;
+    vars->map =NULL;
     while (parsing->file[line])
         line++;
     int height = line - save_line;

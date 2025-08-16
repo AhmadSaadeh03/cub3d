@@ -6,7 +6,7 @@
 /*   By: asaadeh <asaadeh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 18:56:44 by asaadeh           #+#    #+#             */
-/*   Updated: 2025/08/14 20:20:49 by asaadeh          ###   ########.fr       */
+/*   Updated: 2025/08/16 16:35:04 by asaadeh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -200,7 +200,6 @@ int main(int argc ,char **argv)
 {
     if (argc != 2)
         return 1;
-    int i = 0;
     if(!valid_extension(argv))
     {
         printf("Error\n the extension of the file is wrong");
@@ -215,6 +214,7 @@ int main(int argc ,char **argv)
         free(parsing);
         return 1;
     }
+    init_parsing(parsing);
     parsing->file = read_file(argv[1]);
     if (!parsing->file)
     {
@@ -223,55 +223,26 @@ int main(int argc ,char **argv)
             free(directions);
             return 1;
     }
-    if (!check_lines(parsing))
-    {
-        printf("Error\nthere is line or more missing");
-        free_parsing(parsing);
-        free(directions);
-        return 1;
-    }
     set_directions(parsing,directions);
     t_vars *vars =  init_map(parsing);
     if (!vars)
+        free_all_and_exit(parsing,vars,directions);
+    if (!check_lines(parsing))
     {
-        free_parsing(parsing);
-        free_directions(directions);
-        return 1;
+        printf("Error\nthere is line or more missing");
+        free_all_and_exit(parsing,vars,directions);
     }
     if (!check_walls(vars))
-    {
-        free_parsing(parsing);
-        free_directions(directions);
-        while (vars->map[i])
-        {
-            free(vars->map[i]);
-            i++;
-        }
-        free(vars->map);
-        free(vars);
-        return 1;
-    }
+        free_all_and_exit(parsing,vars,directions);
     if (!init_ceil(parsing))
-    {
-        free(parsing->ceil);
-    }
+        free_all_and_exit(parsing,vars,directions);
     if (!init_floor(parsing))
-    {
-        free(parsing->floor);
-    }
+        free_all_and_exit(parsing,vars,directions);
     printf("ceil:%s\n",parsing->ceil);
     printf("floor:%s\n",parsing->floor);
     printf("east :%s\n",directions->east);
     printf("west :%s\n",directions->west);
     printf("north :%s\n",directions->north);
     printf("south :%s\n",directions->south);
-    free_parsing(parsing);
-    free_directions(directions);
-    while (vars->map[i])
-    {
-        free(vars->map[i]);
-        i++;
-    }
-    free(vars->map);
-    free(vars);
+    free_all_and_exit(parsing,vars,directions);
 }
