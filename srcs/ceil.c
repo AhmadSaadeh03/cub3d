@@ -6,52 +6,62 @@
 /*   By: asaadeh <asaadeh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 20:07:24 by asaadeh           #+#    #+#             */
-/*   Updated: 2025/08/16 18:47:13 by asaadeh          ###   ########.fr       */
+/*   Updated: 2025/08/17 14:53:48 by asaadeh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
-//// chat gpt --> for testing 
-// void check_number_in_ceil(t_parsing *parsing, t_vars *vars, t_directions *directions)
-// {
-//     int i = 0;
-//     int number_index = 0;
-//     t_colors *colors = malloc(sizeof(t_colors));
-//     if (!colors)
-//         free_all_and_exit(parsing, vars, directions);
-
-//     // Skip until the first digit (start of first number)
-//     while (parsing->ceil[i] && !ft_isdigit(parsing->ceil[i]))
-//         i++;
-
-//     while (number_index < 3 && parsing->ceil[i])
-//     {
-//         // Read number with ft_atoi
-//         colors->ceil[number_index] = ft_atoi(&parsing->ceil[i]);
-//         number_index++;
-
-//         // Skip the number we just parsed
-//         while (ft_isdigit(parsing->ceil[i]))
-//             i++;
-
-//         // Skip commas or spaces
-//         if (parsing->ceil[i] == ',')
-//             i++;
-//         while (parsing->ceil[i] == ' ' || parsing->ceil[i] == '\t')
-//             i++;
-//     }
-
-//     if (number_index != 3)
-//     {
-//         printf("Error\nCeil color must have exactly 3 numbers (R,G,B)\n");
-//         free(colors);
-//         free_all_and_exit(parsing, vars, directions);
-//     }
-
-//     printf("Ceil RGB: %d, %d, %d\n", colors->ceil[0], colors->ceil[1], colors->ceil[2]);
-
-//     free(colors);
-// }
+char *init_ceil_numbers(t_parsing *parsing,t_vars *vars,t_directions *directions)
+{
+    int i = 1; 
+    int j = 0;
+    char *line;
+    int count = ft_strlen(parsing->ceil);
+    count-=1;
+    line  = malloc(sizeof(char) * count + 1);
+    if (!line)
+        free_all_and_exit(parsing,vars,directions);
+    while (parsing->ceil[i])
+    {
+        line[j] = parsing->ceil[i];
+        i++;
+        j++;
+    }
+    line[j] = '\0';
+    return line;
+}
+t_colors *get_ceil_number(t_parsing *parsing,t_vars *vars,t_directions *directions)
+{
+    int i = 0;
+    char **string;
+    char *line = init_ceil_numbers(parsing,vars,directions);
+    t_colors *colors = malloc(sizeof(t_colors));
+    if (!colors)
+    {
+        free(line);
+        free_all_and_exit(parsing,vars,directions);
+    }
+    string = ft_split(line,',');
+    if (!string)
+    {
+        free(line);
+        free(colors);
+        free_all_and_exit(parsing,vars,directions);
+    }
+    colors->ceil[0] = ft_atoi(string[0]);
+    colors->ceil[1] = ft_atoi(string[1]);
+    colors->ceil[2] = ft_atoi(string[2]);
+    while (string[i])
+    {
+        free(string[i]);
+        i++;
+    }
+    free(string);
+    free(line);
+    get_floor_number(parsing,vars,directions,colors);
+    check_valid_numbers(parsing,vars,directions,colors);
+    return colors;
+}
 
 void check_comma_in_ceil(t_parsing *parsing,t_vars *vars,t_directions *directions)
 {
@@ -59,25 +69,25 @@ void check_comma_in_ceil(t_parsing *parsing,t_vars *vars,t_directions *direction
     int count_comma = 0;
     while (parsing->ceil[i])
     {
+        if (!ft_isalnum(parsing->ceil[i]) && parsing->ceil[i] != ',' && parsing->ceil[i] != 'C')
+        {
+            printf("Error\ninvalid char in ceil line");
+            free_all_and_exit(parsing,vars,directions);
+        }
         if (parsing->ceil[i] == ',')
         {
             if (!ft_isdigit(parsing->ceil[i+1]) || !ft_isdigit(parsing->ceil[i-1]))
             {
-                printf("Error\non the place of comma");
+                printf("Error\nafter and before comma should be number in ceil line");
                 free_all_and_exit(parsing,vars,directions);
             }
             count_comma++;
-        }
-        if (!ft_isalnum(parsing->ceil[i]) && parsing->ceil[i] != ',' && parsing->ceil[i] != 'C')
-        {
-            printf("Error\ninvalid char on ceil line");
-            free_all_and_exit(parsing,vars,directions);
         }
         i++;
     }
     if (count_comma != 2)
     {
-        printf("Error\nthe number of comma is wrong");
+        printf("Error\nthe number of comma is wrong in ceil line");
         free_all_and_exit(parsing,vars,directions);
     }
 }
@@ -101,6 +111,7 @@ void    check_letter_on_ceil(t_parsing *parsing,t_vars *vars,t_directions *direc
         free_all_and_exit(parsing,vars,directions);
     }
 }
+
 int get_ceil_line(t_parsing *parsing)
 {
     int i = 0;
@@ -126,7 +137,10 @@ void set_ceil(t_parsing *parsing,t_vars *vars,t_directions *directions)
 {
     int j = 0;
     if (!get_ceil_line(parsing))
+    {
+        write(2, "Error\nC Rule Does Not Found\n", 29);
         free_all_and_exit(parsing,vars,directions);
+    }
     while (parsing->file[parsing->ceil_line][j] && parsing->file[parsing->ceil_line][j] != '\n')
     {
 
@@ -185,5 +199,11 @@ void init_ceil(t_parsing *parsing,t_vars *vars,t_directions *directions)
     init_floor(parsing,vars,directions);
     check_letter_on_ceil(parsing,vars,directions);
     check_comma_in_ceil(parsing,vars,directions);
-   // check_number_in_ceil(parsing,vars,directions);
+    // t_colors *colors  = check_number_in_ceil(parsing,vars,directions);
+    // if (!colors)
+    // {
+    //     free(colors);
+    //     free_all_and_exit(parsing,vars,directions);
+    // }
+    // printf("%d\n%d\n%d\n",colors->ceil[0],colors->ceil[1],colors->ceil[2]);
 }

@@ -6,11 +6,22 @@
 /*   By: asaadeh <asaadeh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 21:04:54 by asaadeh           #+#    #+#             */
-/*   Updated: 2025/08/16 16:50:05 by asaadeh          ###   ########.fr       */
+/*   Updated: 2025/08/17 16:58:36 by asaadeh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
+int is_this_map(t_parsing *parsing,int i)
+{
+    int j = 0;
+    while (parsing->file[i][j] && parsing->file[i][j] != '\n')
+    {
+        if (ft_isalpha(parsing->file[i][j]))
+            return 0;
+        j++;
+    }
+    return 1;
+}
 
 void check_elements(t_parsing *parsing,t_vars *vars,t_directions *directions)
 {
@@ -46,7 +57,7 @@ void check_elements(t_parsing *parsing,t_vars *vars,t_directions *directions)
     }
     if (count != 1)
     {
-        printf("Error\nthere is one or more than one player");
+        printf("Error\nthere is no player or more than one player");
         free_all_and_exit(parsing,vars,directions);
     }
 }
@@ -151,11 +162,11 @@ void check_walls(t_parsing *parsing,t_vars *vars,t_directions *directions)
 {
     int i = 0;
     int j = 0;
-    int final_line;
+    int final_line = 0;
     check_taps(parsing,vars,directions);
     while (vars->map[i])
     {
-        if(vars->map[i][j] == '1' && vars->map[i][j+1] == '1' && vars->map[i][j+2] == '1'  && vars->map[i][j+3] == '1')
+        if(parsing->file[i][j] == '1' && is_this_map(parsing,i))
             final_line = i;
         i++;
     }

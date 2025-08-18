@@ -6,7 +6,7 @@
 /*   By: asaadeh <asaadeh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 17:31:14 by asaadeh           #+#    #+#             */
-/*   Updated: 2025/08/16 17:00:18 by asaadeh          ###   ########.fr       */
+/*   Updated: 2025/08/17 16:57:48 by asaadeh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ typedef struct s_parsing
     int last_floor;
     int floor_line;
     char *floor;
+    int save_last_line; // after resources
 }   t_parsing;
 
 
@@ -80,4 +81,8 @@ void free_all_and_exit(t_parsing *parsing , t_vars *vars,t_directions *direction
 
 void init_ceil(t_parsing *parsing,t_vars *vars,t_directions *directions);
 void init_floor(t_parsing *parsing,t_vars *vars,t_directions *directions);
+t_colors *get_ceil_number(t_parsing *parsing,t_vars *vars,t_directions *directions);
+void  get_floor_number(t_parsing *parsing,t_vars *vars,t_directions *directions,t_colors *colors);
+void check_valid_numbers(t_parsing *parsing,t_vars *vars,t_directions *directions,t_colors *colors);
+int is_this_map(t_parsing *parsing,int i);
 #endif

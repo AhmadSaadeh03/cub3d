@@ -6,7 +6,7 @@
 /*   By: asaadeh <asaadeh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 18:56:44 by asaadeh           #+#    #+#             */
-/*   Updated: 2025/08/16 17:04:18 by asaadeh          ###   ########.fr       */
+/*   Updated: 2025/08/17 16:58:13 by asaadeh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void check_lines(t_parsing *parsing,t_vars *vars,t_directions *directions)
         j = 0;
         while (parsing->file[i][j] && parsing->file[i][j] != '\n')
         {
-            if(parsing->file[i][j] == '1' && parsing->file[i][j+1] == '1' && parsing->file[i][j+2] == '1' && parsing->file[i][j+3] == '1')
+            if(parsing->file[i][j] == '1' && is_this_map(parsing,i))
             {
                 stop = 1;
                 break;
@@ -91,12 +91,14 @@ void check_lines(t_parsing *parsing,t_vars *vars,t_directions *directions)
             break;
         i++;
     }
+    printf("not empty is%d",not_empty);
     if (not_empty != 6)
     {
         printf("Error\nthere is line or more missing");
         free_all_and_exit(parsing,vars,directions);
     }
     init_ceil(parsing,vars,directions);
+
 }
 int first_line(t_parsing *parsing)
 {
@@ -107,10 +109,12 @@ int first_line(t_parsing *parsing)
     while (parsing->file[i])
     {
         j = 0;
-        while (parsing->file[i][j])
+        while (parsing->file[i][j] && parsing->file[i][j]!= '\n')
         {
-            if (parsing->file[i][j] == '1' && parsing->file[i][j+1] == '1' && parsing->file[i][j+2] == '1' && parsing->file[i][j+3] == '1')
+            if (parsing->file[i][j] == '1' && is_this_map(parsing,i))
             {
+
+                printf("row is %d\n column is %d",i,j);
                 save_line  = i ;
                 found = 1;
                 break;
@@ -195,11 +199,20 @@ int main(int argc ,char **argv)
         free_all_and_exit(parsing,vars,directions);
     check_lines(parsing,vars,directions);
     check_walls(parsing,vars,directions);
+    t_colors *colors  = get_ceil_number(parsing,vars,directions);
+    if (!colors)
+    {
+        free(colors);
+        free_all_and_exit(parsing,vars,directions);
+    }
+    printf(" ceil numbers :%d\n%d\n%d\n",colors->ceil[0],colors->ceil[1],colors->ceil[2]);
+    printf(" floor numbers :%d\n%d\n%d\n",colors->floor[0],colors->floor[1],colors->floor[2]);
     printf("ceil:%s\n",parsing->ceil);
     printf("floor:%s\n",parsing->floor);
     printf("east :%s\n",directions->east);
     printf("west :%s\n",directions->west);
     printf("north :%s\n",directions->north);
     printf("south :%s\n",directions->south);
+    free(colors);
     free_all_and_exit(parsing,vars,directions);
 }

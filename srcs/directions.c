@@ -6,7 +6,7 @@
 /*   By: asaadeh <asaadeh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 16:37:54 by asaadeh           #+#    #+#             */
-/*   Updated: 2025/08/16 16:38:58 by asaadeh          ###   ########.fr       */
+/*   Updated: 2025/08/17 17:01:59 by asaadeh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -250,8 +250,11 @@ int set_dir_path(t_parsing *parsing, char **destination,char *str)
         j = 0;
         while (parsing->file[i][j])
         {
-            if(parsing->file[i][j] == '1' && parsing->file[i][j+1] == '1' && parsing->file[i][j+2] == '1' && parsing->file[i][j+3] == '1')
+            if(parsing->file[i][j] == '1' && is_this_map(parsing,i))
+            {
+                printf("dsfsdf");
                 return 0;
+            }
             if (parsing->file[i][j] == str[0] && parsing->file[i][j + 1] == str[1])
             {
                 j += 2;
@@ -311,7 +314,7 @@ int is_one_time(t_parsing *parsing)
              if ((parsing->file[i][j] == 'E' && parsing->file[i][j+1] == 'A')
               || (parsing->file[i][j] == 'W' && parsing->file[i][j+1] == 'E'))
                 count++;
-             if ((parsing->file[i][j] == 'F' || parsing->file[i][j+1] == 'C'))
+             if ((parsing->file[i][j] == 'F' || parsing->file[i][j] == 'C'))
                 count++;
             j++;
         }
@@ -327,7 +330,7 @@ void set_directions(t_parsing *parsing,t_directions *directions)
 {
         init_directions(directions);
         if (!is_one_time(parsing))
-            exit_and_error(parsing,directions,"one or more of the resources is missing");
+            exit_and_error(parsing,directions,"there is more or less than 6 resources");
         if (!set_dir_path(parsing, &directions->north, "NO"))
             exit_and_error(parsing,directions,"uncorrect NO");
         if (!set_dir_path(parsing, &directions->south, "SO"))

@@ -6,31 +6,80 @@
 /*   By: asaadeh <asaadeh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 20:16:11 by asaadeh           #+#    #+#             */
-/*   Updated: 2025/08/16 17:45:36 by asaadeh          ###   ########.fr       */
+/*   Updated: 2025/08/17 14:55:19 by asaadeh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
+char *init_floor_numbers(t_parsing *parsing,t_vars *vars,t_directions *directions)
+{
+    (void)vars;
+    (void)directions;
+    int i = 1; 
+    int j = 0;
+    char *line;
+    int count = ft_strlen(parsing->floor);
+    count-=1;
+    line  = malloc(sizeof(char) * count + 1);// i want to check malloc here
+    if (!line)
+        return (NULL);
+    while (parsing->floor[i])
+    {
+        line[j] = parsing->floor[i];
+        i++;
+        j++;
+    }
+    line[j] = '\0';
+    return line;
+}
+void  get_floor_number(t_parsing *parsing,t_vars *vars,t_directions *directions,t_colors *colors)
+{
+    int i = 0;
+    char **string;
+    char *line = init_floor_numbers(parsing,vars,directions);
+    if (!line)
+    {
+        free(colors);
+        free_all_and_exit(parsing,vars,directions);
+    }
+    string = ft_split(line,',');
+    if (!string)
+    {
+        free(line);
+        free(colors);
+        free_all_and_exit(parsing,vars,directions);
+    }
+    colors->floor[0] = ft_atoi(string[0]);
+    colors->floor[1] = ft_atoi(string[1]);
+    colors->floor[2] = ft_atoi(string[2]);
+    while (string[i])
+    {
+        free(string[i]);
+        i++;
+    }
+    free(string);
+    free(line);
+}
 void check_comma_in_floor(t_parsing *parsing,t_vars *vars,t_directions *directions)
 {
     int i = 0;
     int count_comma = 0;
     while (parsing->floor[i])
     {
-        if (parsing->floor[i] == ',')
-        {
-            if (!ft_isdigit(parsing->floor[i+1]) || !ft_isdigit(parsing->floor[i-1]))
-            {
-                printf("Error\non the place of comma");
-                free_all_and_exit(parsing,vars,directions);
-            }
-            count_comma++;
-        }
         if (!ft_isalnum(parsing->floor[i]) && parsing->floor[i] != ',' && parsing->floor[i] != 'F')
         {
             printf("Error\ninvalid char on floor line");
             free_all_and_exit(parsing,vars,directions);
+        }
+        if (parsing->floor[i] == ',')
+        {
+            if (!ft_isdigit(parsing->floor[i+1]) || !ft_isdigit(parsing->floor[i-1]))
+            {
+                printf("Error\nafter and before comma should be number in ceil line");
+                free_all_and_exit(parsing,vars,directions);
+            }
+            count_comma++;
         }
         i++;
     }
@@ -86,7 +135,10 @@ void set_floor(t_parsing *parsing,t_vars *vars,t_directions *directions)
 {
     int j = 0;
     if (!get_floor_line(parsing))
+    {
+        write(2, "Error\nF Rule Does Not Found\n", 29);
         free_all_and_exit(parsing,vars,directions);
+    }
     while (parsing->file[parsing->floor_line][j] && parsing->file[parsing->floor_line][j] != '\n')
     {
 
