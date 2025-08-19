@@ -6,7 +6,7 @@
 /*   By: asaadeh <asaadeh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 18:56:44 by asaadeh           #+#    #+#             */
-/*   Updated: 2025/08/19 15:01:58 by asaadeh          ###   ########.fr       */
+/*   Updated: 2025/08/19 18:05:41 by asaadeh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,41 +127,6 @@ int first_line(t_parsing *parsing)
     return save_line;
     return 1;
 }
-// int init_map(t_parsing *parsing)
-// {
-//     int line = first_line(parsing);
-//     if (!line)
-//     {
-//         printf("Error\n on the map");
-//         exit(1);
-//     }
-//     int j = 0;
-//     int save_line = line;
-//     t_vars *vars = malloc(sizeof(t_vars));
-//     if (!vars)
-//         return 0;
-//     while (parsing->file[line])
-//         line++;
-//     int height = line - save_line;
-
-//     vars->map = malloc(sizeof(char *) * (height + 1));
-//     if (!vars->map)
-//         return 0;
-    
-//     int i = 0;
-//     j = 0;
-//     while (i < height)
-//     {
-//         j = 0;
-//         while (parsing->file[save_line][j] && parsing->file[save_line][j] != '\n')
-//             j++;
-//         vars->map[save_line] = malloc(sizeof(char) * (j + 1));
-//         ft_strlcpy(vars->map[save_line],parsing->file[save_line],ft_strlen(parsing->file[save_line]));
-//         save_line++;
-//         i++;
-//     }
-//     return 1;
-// }
 
 int main(int argc ,char **argv)
 {
@@ -181,36 +146,13 @@ int main(int argc ,char **argv)
         free(parsing);
         return 1;
     }
-    init_parsing(parsing);
-    parsing->file = read_file(argv[1]);
-    if (!parsing->file)
-    {
-            printf("Error\non opening the fd");
-            free(parsing);
-            free(directions);
-            return 1;
-    }
-    set_directions(parsing,directions);
-    t_vars *vars =  init_map(parsing);
+    if (!init_parsing_directions(parsing,directions,argv[1]))
+        return 1;
+    t_vars *vars = init_map(parsing);
     if (!vars)
         free_all_and_exit(parsing,vars,directions);
+    check_image_path(parsing,vars,directions);
     check_lines(parsing,vars,directions);
     check_walls(parsing,vars,directions);
-    t_colors *colors  = get_ceil_number(parsing,vars,directions);
-    if (!colors)
-    {
-        free(colors);
-        free_all_and_exit(parsing,vars,directions);
-    }
-    // printf("ceil numbers:\n%d\n%d\n%d\n",colors->ceil[0],colors->ceil[1],colors->ceil[2]);
-    // printf("floor numbers:\n%d\n%d\n%d\n",colors->floor[0],colors->floor[1],colors->floor[2]);
-    // printf("east :%s\n",directions->east);
-    // printf("west :%s\n",directions->west);
-    // printf("north :%s\n",directions->north);
-    // printf("south :%s\n",directions->south);
-    //print_map(vars);
-   //flood_fill(vars,(int)vars->yp_pos,(int)vars->xp_pos);
-
-    free(colors);
-    free_all_and_exit(parsing,vars,directions);
+    init_colors(parsing,vars,directions);
 }

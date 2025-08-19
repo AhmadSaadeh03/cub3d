@@ -6,7 +6,7 @@
 /*   By: asaadeh <asaadeh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 16:28:13 by asaadeh           #+#    #+#             */
-/*   Updated: 2025/08/16 16:29:15 by asaadeh          ###   ########.fr       */
+/*   Updated: 2025/08/19 17:30:08 by asaadeh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,4 +80,24 @@ void exit_and_error(t_parsing *parsing ,t_directions *directions,char *str)
     free_directions(directions);
     printf("Error\n%s",str);
     exit (1);
+}
+void	free_string(char **string, int i)
+{
+	while (string[i])
+	{
+		free(string[i]);
+		i++;
+	}
+	free(string);
+}
+
+void	free_all_and_exit_two(t_parsing *parsing, t_vars *vars,
+		t_directions *directions, char *line)
+{
+	free_parsing(parsing);
+	free_directions(directions);
+	free_vars(vars);
+	if (line)
+		free(line);
+	exit(1);
 }

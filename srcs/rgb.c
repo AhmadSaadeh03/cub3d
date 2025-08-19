@@ -6,11 +6,13 @@
 /*   By: asaadeh <asaadeh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 14:04:59 by asaadeh           #+#    #+#             */
-/*   Updated: 2025/08/19 15:01:12 by asaadeh          ###   ########.fr       */
+/*   Updated: 2025/08/19 17:29:50 by asaadeh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
+
+
 
 void check_valid_numbers(t_parsing *parsing,t_vars *vars,t_directions *directions,t_colors *colors)
 {

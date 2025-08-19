@@ -6,7 +6,7 @@
 /*   By: asaadeh <asaadeh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 17:31:14 by asaadeh           #+#    #+#             */
-/*   Updated: 2025/08/19 14:25:11 by asaadeh          ###   ########.fr       */
+/*   Updated: 2025/08/19 18:05:22 by asaadeh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,10 +60,6 @@ typedef struct s_parsing
 
 
 void init_directions(t_directions *directions);
-int set_north(t_parsing *parsing,t_directions *directions);
-int set_south(t_parsing *parsing,t_directions *directions);
-int set_east(t_parsing *parsing,t_directions *directions);
-int set_west(t_parsing *parsing,t_directions *directions);
 int set_dir_path(t_parsing *parsing, char **destination,char *str);
 void free_file(char **file);
 void free_directions(t_directions *directions);
@@ -81,16 +77,30 @@ int first_line(t_parsing *parsing);
 void    init_parsing(t_parsing  *parsing);
 void free_all_and_exit(t_parsing *parsing , t_vars *vars,t_directions *directions);
 
+
+
 void init_ceil(t_parsing *parsing,t_vars *vars,t_directions *directions);
-void init_floor(t_parsing *parsing,t_vars *vars,t_directions *directions);
 t_colors *get_ceil_number(t_parsing *parsing,t_vars *vars,t_directions *directions);
+void	set_ceil(t_parsing *parsing, t_vars *vars, t_directions *directions);
+int	get_ceil_line(t_parsing *parsing);
+void	check_comma_in_ceil(t_parsing *parsing, t_vars *vars,t_directions *directions);
+
+
+void init_floor(t_parsing *parsing,t_vars *vars,t_directions *directions);
 void  get_floor_number(t_parsing *parsing,t_vars *vars,t_directions *directions,t_colors *colors);
 void check_valid_numbers(t_parsing *parsing,t_vars *vars,t_directions *directions,t_colors *colors);
 void print_map(t_vars *vars);
 int is_this_map(t_parsing *parsing,int i);
-void	flood_fill(t_vars *vars, int y, int x);
-int flood_fill_check(t_vars *vars, int y, int x);
 int validate_map(t_vars *vars);
 void restore_map(t_vars *vars);
 void get_max_width(t_vars *vars);
+int    init_parsing_directions(t_parsing *parsing,t_directions *directions,char *argv);
+char  **read_file(char *file_name);
+void init_colors(t_parsing *parsing,t_vars *vars,t_directions *directions);
+void free_vars(t_vars *vars);
+void	free_string(char **string, int i);
+void	free_all_and_exit_two(t_parsing *parsing, t_vars *vars,t_directions *directions,char *line);
+void	set_floor(t_parsing *parsing, t_vars *vars, t_directions *directions);
+void	check_comma_in_floor(t_parsing *parsing, t_vars *vars,t_directions *directions);
+void check_image_path(t_parsing *parsing,t_vars *vars,t_directions *directinos);
 #endif

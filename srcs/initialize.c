@@ -6,7 +6,7 @@
 /*   By: asaadeh <asaadeh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/16 16:20:17 by asaadeh           #+#    #+#             */
-/*   Updated: 2025/08/16 16:24:09 by asaadeh          ###   ########.fr       */
+/*   Updated: 2025/08/19 18:06:26 by asaadeh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,4 +30,48 @@ void    init_parsing(t_parsing  *parsing)
     parsing->floor_line = -1;
     parsing->last_ceil = -1;
     parsing->last_floor = -1;
+}
+int    init_parsing_directions(t_parsing *parsing,t_directions *directions,char *argv)
+{
+    init_parsing(parsing);
+    parsing->file = read_file(argv);
+    if (!parsing->file)
+    {
+            printf("Error\non opening the fd");
+            free(parsing);
+            free(directions);
+            return 0;
+    }
+    set_directions(parsing,directions);
+    return 1;
+}
+void init_colors(t_parsing *parsing,t_vars *vars,t_directions *directions)
+{
+    t_colors *colors  = get_ceil_number(parsing,vars,directions);
+    if (!colors)
+    {
+        free(colors);
+        free_all_and_exit(parsing,vars,directions);
+    }
+    free(colors);
+    free_all_and_exit(parsing,vars,directions);
+}
+void check_image_path(t_parsing *parsing,t_vars *vars,t_directions *directinos)
+{
+    int fd_ea = open(directinos->east,O_RDONLY);
+    if (fd_ea == -1)
+        free_all_and_exit(parsing,vars,directinos);
+    close(fd_ea);
+    int fd_no = open(directinos->north,O_RDONLY);
+    if (fd_no == -1)
+        free_all_and_exit(parsing,vars,directinos);
+    close(fd_no);
+    int fd_so = open(directinos->south,O_RDONLY);
+    if (fd_so == -1)
+        free_all_and_exit(parsing,vars,directinos);
+    close(fd_so);
+    int fd_we = open(directinos->west,O_RDONLY);
+    if (fd_we == -1)
+        free_all_and_exit(parsing,vars,directinos);
+    close(fd_we);
 }

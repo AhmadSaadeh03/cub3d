@@ -6,7 +6,7 @@
 /*   By: asaadeh <asaadeh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 21:04:54 by asaadeh           #+#    #+#             */
-/*   Updated: 2025/08/19 15:00:28 by asaadeh          ###   ########.fr       */
+/*   Updated: 2025/08/19 16:53:35 by asaadeh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,28 +92,22 @@ void check_elements(t_parsing *parsing, t_vars *vars, t_directions *directions)
                 vars->facing_dir = vars->map[i][j];
                 vars->xp_pos = j;
                 vars->yp_pos = i;
-                vars->map[i][j] = '0'; // replace player with 0 for validation
+                vars->map[i][j] = '0';
                 player_count++;
             }
             j++;
         }
         i++;
     }
-
     if (player_count != 1)
     {
         printf("Error: Invalid number of player start positions\n");
         free_all_and_exit(parsing, vars, directions);
     }
-
-    // ✅ Call map validation here
     if (validate_map(vars))
-    {
-        printf("Error: Map is invalid (leaks or open areas)\n");
-        free_all_and_exit(parsing, vars, directions);
-    }
+           free_all_and_exit(parsing,vars,directions);
+   
     restore_map(vars);
-    printf("%f",vars->xp_pos);
 }
 
 int  get_last_line(t_vars *vars,t_parsing *parsing)
