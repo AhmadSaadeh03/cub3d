@@ -6,7 +6,7 @@
 /*   By: asaadeh <asaadeh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 21:04:54 by asaadeh           #+#    #+#             */
-/*   Updated: 2025/08/19 14:35:41 by asaadeh          ###   ########.fr       */
+/*   Updated: 2025/08/19 15:00:28 by asaadeh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,12 +116,29 @@ void check_elements(t_parsing *parsing, t_vars *vars, t_directions *directions)
     printf("%f",vars->xp_pos);
 }
 
+int  get_last_line(t_vars *vars,t_parsing *parsing)
+{
+    int i = 0;
+    int j = 0;
+    int last_line = 0;
+    while (vars->map[i])
+    {
+        j = 0;
+        if (vars->map[i][j] == '1' && is_this_map(parsing,i))
+        {
+            last_line = i;
+        }
+        
+        i++;
+    }
+   return last_line;
 
+}
 void check_taps(t_parsing *parsing,t_vars *vars,t_directions *directions)
 {
     int i = 0;
-
-    while (vars->map[i])
+    int last_line = get_last_line(vars,parsing);
+    while (i < last_line)
     {
         int j = 0;
         int first = -1;
@@ -227,6 +244,7 @@ void check_walls(t_parsing *parsing,t_vars *vars,t_directions *directions)
             final_line = i;
         i++;
     }
+    printf("final line %d",final_line);
     while (vars->map[0][j] && vars->map[0][j] != '\n')
     {
         if(vars->map[0][j] == ' ' || vars->map[0][j] == '\t' || vars->map[0][j] == '1')
@@ -268,7 +286,6 @@ t_vars *init_map(t_parsing *parsing)
         line++;
     int height = line - save_line;
     vars->map_height = height;
-
     vars->map = malloc(sizeof(char *) * (height + 1));
     if (!vars->map)
     {

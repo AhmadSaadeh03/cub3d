@@ -6,7 +6,7 @@
 /*   By: asaadeh <asaadeh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 18:56:44 by asaadeh           #+#    #+#             */
-/*   Updated: 2025/08/18 17:07:30 by asaadeh          ###   ########.fr       */
+/*   Updated: 2025/08/19 15:01:58 by asaadeh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -210,7 +210,7 @@ int main(int argc ,char **argv)
     // printf("south :%s\n",directions->south);
     //print_map(vars);
    //flood_fill(vars,(int)vars->yp_pos,(int)vars->xp_pos);
-    printf("y %d x %d",(int)vars->yp_pos,(int)vars->xp_pos);
+
     free(colors);
     free_all_and_exit(parsing,vars,directions);
 }
