@@ -6,7 +6,7 @@
 /*   By: asaadeh <asaadeh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 17:31:14 by asaadeh           #+#    #+#             */
-/*   Updated: 2025/08/17 16:57:48 by asaadeh          ###   ########.fr       */
+/*   Updated: 2025/08/19 14:25:11 by asaadeh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ typedef struct s_vars
     char    facing_dir;
     double  xp_pos;
     double  yp_pos;
+    int map_height;
+    int map_width;
 }   t_vars;
 
 typedef struct s_parsing
@@ -53,7 +55,7 @@ typedef struct s_parsing
     int last_floor;
     int floor_line;
     char *floor;
-    int save_last_line; // after resources
+    int last_line_map;
 }   t_parsing;
 
 
@@ -84,5 +86,11 @@ void init_floor(t_parsing *parsing,t_vars *vars,t_directions *directions);
 t_colors *get_ceil_number(t_parsing *parsing,t_vars *vars,t_directions *directions);
 void  get_floor_number(t_parsing *parsing,t_vars *vars,t_directions *directions,t_colors *colors);
 void check_valid_numbers(t_parsing *parsing,t_vars *vars,t_directions *directions,t_colors *colors);
+void print_map(t_vars *vars);
 int is_this_map(t_parsing *parsing,int i);
+void	flood_fill(t_vars *vars, int y, int x);
+int flood_fill_check(t_vars *vars, int y, int x);
+int validate_map(t_vars *vars);
+void restore_map(t_vars *vars);
+void get_max_width(t_vars *vars);
 #endif
