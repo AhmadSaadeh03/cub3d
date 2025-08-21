@@ -6,7 +6,7 @@
 /*   By: asaadeh <asaadeh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 18:56:44 by asaadeh           #+#    #+#             */
-/*   Updated: 2025/08/19 18:05:41 by asaadeh          ###   ########.fr       */
+/*   Updated: 2025/08/21 18:31:18 by asaadeh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,8 +151,10 @@ int main(int argc ,char **argv)
     t_vars *vars = init_map(parsing);
     if (!vars)
         free_all_and_exit(parsing,vars,directions);
-    check_image_path(parsing,vars,directions);
+    //check_image_path(parsing,vars,directions);
     check_lines(parsing,vars,directions);
     check_walls(parsing,vars,directions);
+    //print_map(vars);
     init_colors(parsing,vars,directions);
+    // invalid char and ../
 }

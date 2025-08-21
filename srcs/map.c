@@ -6,7 +6,7 @@
 /*   By: asaadeh <asaadeh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 21:04:54 by asaadeh           #+#    #+#             */
-/*   Updated: 2025/08/19 16:53:35 by asaadeh          ###   ########.fr       */
+/*   Updated: 2025/08/21 18:23:57 by asaadeh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,79 +36,79 @@ int is_this_map(t_parsing *parsing,int i)
     return 1;
 }
 
-// void check_elements(t_parsing *parsing,t_vars *vars,t_directions *directions)
-// {
-//     int i = 0;
-//     int j = 0;
-//     int count = 0;
-//     while (vars->map[i])
-//     {
-//         j = 0;
-//         while (vars->map[i][j])
-//         {
-//             if (vars->map[i][j] == '1' ||vars->map[i][j] == '0' || vars->map[i][j] == ' ')
-//             {
-//                 j++;
-//                 continue;
-//             }
-//             if (vars->map[i][j] == 'N' || vars->map[i][j] == 'E' || vars->map[i][j] == 'S' || vars->map[i][j] == 'W')
-//             {
-                
-//                 vars->facing_dir = vars->map[i][j];
-//                 vars->xp_pos = j;
-//                 vars->yp_pos = i;
-//                 count++;
-//                 j++;
-//                 continue;
-//             }
-//             else
-//             {
-//                 printf("Error\nundefined element inside the map");
-//                 free_all_and_exit(parsing,vars,directions);
-//             }
-//         }
-//         i++;
-//     }
-//     if (count != 1)
-//     {
-//         printf("Error\nthere is no player or more than one player");
-//         free_all_and_exit(parsing,vars,directions);
-//     }
-// }
-void check_elements(t_parsing *parsing, t_vars *vars, t_directions *directions)
+void check_elements(t_parsing *parsing,t_vars *vars,t_directions *directions)
 {
     int i = 0;
-    int j;
-    int player_count = 0;
-
+    int j = 0;
+    int count = 0;
     while (vars->map[i])
     {
         j = 0;
         while (vars->map[i][j])
         {
-            if (vars->map[i][j] == 'N' || vars->map[i][j] == 'S' || 
-                vars->map[i][j] == 'E' || vars->map[i][j] == 'W')
+            if (vars->map[i][j] == '1' ||vars->map[i][j] == '0' || vars->map[i][j] == ' ')
             {
-                vars->facing_dir = vars->map[i][j];
-                vars->xp_pos = j;
-                vars->yp_pos = i;
-                vars->map[i][j] = '0';
-                player_count++;
+                j++;
+                continue;
             }
-            j++;
+            if (vars->map[i][j] == 'N' || vars->map[i][j] == 'E' || vars->map[i][j] == 'S' || vars->map[i][j] == 'W')
+            {
+                
+                vars->facing_dir = vars->map[i][j];
+                vars->xp_pos = j + 0.5;
+                vars->yp_pos = i + 0.5;
+                //vars->map[i][j] = '0'; we have to change the player pos to zero
+                count++;
+                j++;
+                continue;
+            }
+            else
+            {
+                printf("Error\nundefined element inside the map");
+                free_all_and_exit(parsing,vars,directions);
+            }
         }
         i++;
     }
-    if (player_count != 1)
+    if (count != 1)
     {
-        printf("Error: Invalid number of player start positions\n");
-        free_all_and_exit(parsing, vars, directions);
+        printf("Error\nthere is no player or more than one player");
+        free_all_and_exit(parsing,vars,directions);
     }
     if (validate_map(vars))
-           free_all_and_exit(parsing,vars,directions);
-   
+           free_all_and_exit(parsing,vars,directions);  
     restore_map(vars);
 }
+// void check_elements(t_parsing *parsing, t_vars *vars, t_directions *directions)
+// {
+//     int i = 0;
+//     int j;
+//     int player_count = 0;
+
+//     while (vars->map[i])
+//     {
+//         j = 0;
+//         while (vars->map[i][j])
+//         {
+//             if (vars->map[i][j] == 'N' || vars->map[i][j] == 'S' || 
+//                 vars->map[i][j] == 'E' || vars->map[i][j] == 'W')
+//             {
+//                 vars->facing_dir = vars->map[i][j];
+//                 vars->xp_pos = j;
+//                 vars->yp_pos = i;
+//                 vars->map[i][j] = '0';
+//                 player_count++;
+//             }
+//             j++;
+//         }
+//         i++;
+//     }
+//     if (player_count != 1)
+//     {
+//         printf("Error: Invalid number of player start positions\n");
+//         free_all_and_exit(parsing, vars, directions);
+//     }
+// }
 
 int  get_last_line(t_vars *vars,t_parsing *parsing)
 {

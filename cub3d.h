@@ -6,7 +6,7 @@
 /*   By: asaadeh <asaadeh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 17:31:14 by asaadeh           #+#    #+#             */
-/*   Updated: 2025/08/19 18:05:22 by asaadeh          ###   ########.fr       */
+/*   Updated: 2025/08/21 17:05:47 by asaadeh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,7 @@
 # include "stdio.h"
 typedef struct  s_colors
 {
-    char *c;
-    char *f;
+
     //range between 0 to 255
     int ceil[3];//int 0->R 1->G 2->B
     int floor[3];

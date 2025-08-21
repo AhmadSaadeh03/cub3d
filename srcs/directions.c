@@ -6,7 +6,7 @@
 /*   By: asaadeh <asaadeh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 16:37:54 by asaadeh           #+#    #+#             */
-/*   Updated: 2025/08/19 15:32:12 by asaadeh          ###   ########.fr       */
+/*   Updated: 2025/08/21 18:29:12 by asaadeh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,17 +27,16 @@ int set_dir_path(t_parsing *parsing, char **destination,char *str)
         while (parsing->file[i][j])
         {
             if(parsing->file[i][j] == '1' && is_this_map(parsing,i))
-            {
-                printf("dsfsdf");
                 return 0;
-            }
             if (parsing->file[i][j] == str[0] && parsing->file[i][j + 1] == str[1])
             {
                 j += 2;
                 while (parsing->file[i][j] == ' ' || parsing->file[i][j] == '\t')
                     j++;
 
-                if (parsing->file[i][j] != '.' || parsing->file[i][j+1] != '/')
+                if (parsing->file[i][j] != '.')
+                    return 0;
+                if (parsing->file[i][j+1] != '/' && parsing->file[i][j+1] != '.' )
                     return 0;
                 start = j;
                 while ((parsing->file[i][j] && parsing->file[i][j] != '\n') && (parsing->file[i][j] != ' '&& parsing->file[i][j] != '\t'))
@@ -59,10 +58,7 @@ int set_dir_path(t_parsing *parsing, char **destination,char *str)
         while (parsing->file[i][check] != '\n')
         {
             if(ft_isalpha(parsing->file[i][check]))
-            {
-                printf("errorororroor%d",check);
                 return 0;
-            }
             check++;
         }
     *destination = malloc(end - start + 1);
