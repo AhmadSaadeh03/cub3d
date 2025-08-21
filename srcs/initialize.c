@@ -6,7 +6,7 @@
 /*   By: asaadeh <asaadeh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/16 16:20:17 by asaadeh           #+#    #+#             */
-/*   Updated: 2025/08/19 18:06:26 by asaadeh          ###   ########.fr       */
+/*   Updated: 2025/08/21 19:24:47 by asaadeh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int    init_parsing_directions(t_parsing *parsing,t_directions *directions,char 
     parsing->file = read_file(argv);
     if (!parsing->file)
     {
-            printf("Error\non opening the fd");
+            write(2,"Error\non opening the fd",24);
             free(parsing);
             free(directions);
             return 0;

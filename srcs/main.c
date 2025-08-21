@@ -6,7 +6,7 @@
 /*   By: asaadeh <asaadeh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 18:56:44 by asaadeh           #+#    #+#             */
-/*   Updated: 2025/08/21 18:31:18 by asaadeh          ###   ########.fr       */
+/*   Updated: 2025/08/21 19:25:27 by asaadeh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ void check_lines(t_parsing *parsing,t_vars *vars,t_directions *directions)
     }
     if (not_empty != 6)
     {
-        printf("Error\nthe numbers of resources is wrong");
+        write(2,"Error\nthe numbers of resources is wrong",40);
         free_all_and_exit(parsing,vars,directions);
     }
     init_ceil(parsing,vars,directions);
@@ -134,7 +134,7 @@ int main(int argc ,char **argv)
         return 1;
     if(!valid_extension(argv))
     {
-        printf("Error\n the extension of the file is wrong");
+        write(2,"Error\n the extension of the file is wrong",42);
         return 1;
     }
     t_parsing *parsing = malloc(sizeof(t_parsing));

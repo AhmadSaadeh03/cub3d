@@ -6,11 +6,18 @@
 /*   By: asaadeh <asaadeh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/12 16:28:13 by asaadeh           #+#    #+#             */
-/*   Updated: 2025/08/19 17:30:08 by asaadeh          ###   ########.fr       */
+/*   Updated: 2025/08/21 19:38:33 by asaadeh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
+
+void	print_and_free(t_parsing *parsing, t_vars *vars,
+		t_directions *directions, char *str)
+{
+	write(2, str, ft_strlen(str));
+	free_all_and_exit(parsing, vars, directions);
+}
 
 void free_file(char **file)
 {

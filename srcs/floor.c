@@ -6,7 +6,7 @@
 /*   By: asaadeh <asaadeh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 20:16:11 by asaadeh           #+#    #+#             */
-/*   Updated: 2025/08/19 17:48:47 by asaadeh          ###   ########.fr       */
+/*   Updated: 2025/08/21 19:24:30 by asaadeh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ void	check_letter_on_floor(t_parsing *parsing, t_vars *vars,
 	}
 	if (count != 1 || c != 'F')
 	{
-		printf("Error\nto many letters on floor line");
+		write(2,"Error\nto many letters on floor line",36);
 		free_all_and_exit(parsing, vars, directions);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: asaadeh <asaadeh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 20:07:24 by asaadeh           #+#    #+#             */
-/*   Updated: 2025/08/19 17:36:26 by asaadeh          ###   ########.fr       */
+/*   Updated: 2025/08/21 19:21:56 by asaadeh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ void	check_letter_on_ceil(t_parsing *parsing, t_vars *vars,
 	}
 	if (count != 1 || c != 'C')
 	{
-		printf("Error\non ceil line");
+		write(2,"Error\non ceil line",19);
 		free_all_and_exit(parsing, vars, directions);
 	}
 }

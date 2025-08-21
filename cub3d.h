@@ -6,7 +6,7 @@
 /*   By: asaadeh <asaadeh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 17:31:14 by asaadeh           #+#    #+#             */
-/*   Updated: 2025/08/21 17:05:47 by asaadeh          ###   ########.fr       */
+/*   Updated: 2025/08/21 19:18:16 by asaadeh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,4 +102,5 @@ void	free_all_and_exit_two(t_parsing *parsing, t_vars *vars,t_directions *direct
 void	set_floor(t_parsing *parsing, t_vars *vars, t_directions *directions);
 void	check_comma_in_floor(t_parsing *parsing, t_vars *vars,t_directions *directions);
 void check_image_path(t_parsing *parsing,t_vars *vars,t_directions *directinos);
+void print_and_free(t_parsing *parsing, t_vars *vars, t_directions *directions,char *str);
 #endif

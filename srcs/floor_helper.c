@@ -6,7 +6,7 @@
 /*   By: asaadeh <asaadeh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 17:39:49 by asaadeh           #+#    #+#             */
-/*   Updated: 2025/08/19 17:56:04 by asaadeh          ###   ########.fr       */
+/*   Updated: 2025/08/21 19:24:08 by asaadeh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ static void	check_comma_pos_f(t_parsing *parsing, t_vars *vars,
 	if (!ft_isdigit(parsing->floor[i + 1])
 		||!ft_isdigit(parsing->floor[i - 1]))
 	{
-		printf("Error\nafter and before comma should be number in floor line");
+		write(2,"Error\nafter and before comma should be number in floor line",60);
 		free_all_and_exit(parsing, vars, directions);
 	}
 }
@@ -100,7 +100,7 @@ void	check_comma_in_floor(t_parsing *parsing, t_vars *vars,
 		if (!ft_isalnum(parsing->floor[i]) && parsing->floor[i] != ','
 			&& parsing->floor[i] != 'F')
 		{
-			printf("Error\ninvalid char on floor line");
+			write(2,"Error\ninvalid char on floor line",33);
 			free_all_and_exit(parsing, vars, directions);
 		}
 		if (parsing->floor[i] == ',')
@@ -112,7 +112,7 @@ void	check_comma_in_floor(t_parsing *parsing, t_vars *vars,
 	}
 	if (count_comma != 2)
 	{
-		printf("Error\nthe number of comma is wrong");
+		write(2,"Error\nthe number of comma is wrong",35);
 		free_all_and_exit(parsing, vars, directions);
 	}
 }

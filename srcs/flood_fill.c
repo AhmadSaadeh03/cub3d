@@ -6,7 +6,7 @@
 /*   By: asaadeh <asaadeh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 14:29:20 by asaadeh           #+#    #+#             */
-/*   Updated: 2025/08/19 16:32:05 by asaadeh          ###   ########.fr       */
+/*   Updated: 2025/08/21 19:22:59 by asaadeh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,6 @@ int validate_map(t_vars *vars)
         printf("Error: Map is not enclosed around player.\n");
         return 1;
     }
-
     int y = 0;
     while (y < vars->map_height)
     {
@@ -109,7 +108,6 @@ int validate_map(t_vars *vars)
         }
         y++;
     }
-
     return 0;
 }
 void restore_map(t_vars *vars)
