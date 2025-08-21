@@ -4,7 +4,7 @@ MLX_DIR = ./mlx
 MLX_FLAGS = -L$(MLX_DIR) -lm -lmlx -lXext -lX11
 LIBFT_DIR = ./libft
 NAME = cub3d
-SRC = 
+SRC = additional_files.c main.c
 
 OBJ = $(SRC:.c=.o)
 
@@ -22,7 +22,6 @@ clean:
 
 fclean: clean
 	$(MAKE) fclean -C $(LIBFT_DIR)
-	$(MAKE) fclean -C $(MLX_DIR)
 	rm -f $(NAME)
 
 re: fclean all
