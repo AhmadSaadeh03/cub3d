@@ -3,12 +3,14 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <X11/keysym.h>
 
 #define W 1000
 #define H 800
 #define MS 0.1
 #define RS 0.1
 #define TEX_SIZE 64
+#define FOV_FACTOR 0.66
 
 typedef struct s_colors
 {
@@ -84,44 +86,38 @@ void put_pixel(t_game *g, int x, int y, int color) {
 }
 
 int get_texture_pixel(t_texture *tex, int x, int y) {
-    if (x < 0 || x >= TEX_SIZE || y < 0 || y >= TEX_SIZE) return 0;
+    if (x < 0 || x >= TEX_SIZE || y < 0 || y >= TEX_SIZE)
+        return 0;
     return *(int*)(tex->addr + y*tex->line_len + x*(tex->bpp/8));
 }
 
 int get_map_cell(t_game *g, int x, int y) {
-    if (x < 0 || x >= g->map_w || y < 0 || y >= g->map_h) return 1;
+    if (x < 0 || x >= g->map_w || y < 0 || y >= g->map_h)
+        return 1;
     if (g->vars.map[y][x] == '1') return 1;
     return 0;
 }
 
-void set_player_direction(t_game *g, char dir) 
+void set_player_direction(t_game *g, char dir)
 {
-    if (dir == 'N') 
-    {
-        g->dx = 0; g->dy = -1; 
-        g->planx = 0.66;
-        g->plany = 0;
-    } 
-    else if (dir == 'S') 
-    {
-        g->dx = 0; g->dy = 1; 
-        g->planx = -0.66;
-        g->plany = 0;
-    }
-    else if (dir == 'E')
-    {
-        g->dx = 1;
-        g->dy = 0;
-        g->planx = 0; 
-        g->plany = 0.66;
-    } 
+      double angle;
+
+    if (dir == 'E')
+        angle = 0;
+    else if (dir == 'N')
+        angle = M_PI / 2;
     else if (dir == 'W')
-    {
-        g->dx = -1;
-        g->dy = 0;
-        g->planx = 0;
-        g->plany = -0.66;
-    }
+        angle = M_PI;
+    else if (dir == 'S')
+        angle = 3 * M_PI / 2;
+    else
+        return; // invalid char
+
+    g->dx = cos(angle);
+    g->dy = -sin(angle);
+
+    g->planx = -g->dy * FOV_FACTOR;
+    g->plany =  g->dx * FOV_FACTOR;
 }
 
 void init_map(t_game *g) 
@@ -175,7 +171,8 @@ int load_texture(t_game *g, int id, char *path)
 {
     t_texture *tex = &g->tex[id];
     tex->img = mlx_xpm_file_to_image(g->mlx, path, &tex->line_len, &tex->endian);
-    if (!tex->img) return 0;
+    if (!tex->img) 
+        return 0;
     tex->addr = mlx_get_data_addr(tex->img, &tex->bpp, &tex->line_len, &tex->endian);
     return 1;
 }
@@ -184,7 +181,7 @@ void init_textures(t_game *g)
 {
     // Set default texture paths
     g->dirs.north = "./textures/eagle.xpm";
-    g->dirs.south = "./textures/mossy.xpm";  
+    g->dirs.south = "./textures/mossy.xpm";
     g->dirs.east = "./textures/greystone.xpm";
     g->dirs.west = "./textures/wood.xpm";
     
@@ -193,7 +190,9 @@ void init_textures(t_game *g)
     load_texture(g, 1, g->dirs.south);
     load_texture(g, 2, g->dirs.east);
     load_texture(g, 3, g->dirs.west);
-} int screen_x = 600;
+} 
+
+int screen_x = 600;
 
 void init_colors(t_game *g) 
 {
@@ -288,9 +287,9 @@ void cast_ray(t_game *g, int screen_x)
     // Determine texture based on wall face
     int tex_id = 0;
     if (side == 0)
-        tex_id = ray_dx > 0 ? 3 : 2; // West or East
+        tex_id = ray_dx < 0 ? 3 : 2; // West or East
     else
-        tex_id = ray_dy > 0 ? 0 : 1; // North or South
+        tex_id = ray_dy < 0 ? 0 : 1; // North or South
     
     // Calculate texture coordinates
     double wall_x;
@@ -385,9 +384,9 @@ int key_press(int key, t_game *g)
         move_player(g, g->dy * MS, -g->dx * MS);
     if (key == 'd')
         move_player(g, -g->dy * MS, g->dx * MS);
-    if (key == 65361)
+    if (key == XK_Left)
         rotate_player(g, -RS);
-    if (key == 65363)
+    if (key == XK_Right)
         rotate_player(g, RS);
     return 0;
 }
@@ -409,3 +408,6 @@ int main() {
     mlx_loop(g.mlx);
     return 0;
 }
+
+//  set player direction ---- tm
+//  
