@@ -6,7 +6,7 @@
 /*   By: maemran < maemran@student.42amman.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 17:31:14 by asaadeh           #+#    #+#             */
-/*   Updated: 2025/08/22 22:50:04 by maemran          ###   ########.fr       */
+/*   Updated: 2025/08/23 17:19:47 by maemran          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,17 @@
 #include <X11/keysym.h>
 #include <math.h>
 
-# define WIDTH      1000
-# define HIGHT      600
-# define FOV_FACTOR 0.7071
-# define MS         0.1
-# define RS         0.1
-# define TEX_SIZE   64
+# define WIDTH              1000
+# define HIGHT              600
+# define FOV_FACTOR         0.7071
+# define MOVESPEED          0.1
+# define ROTATSPEED         0.1
+# define TEX_SIZE           64
 
 typedef struct  s_colors
 {
+    int     c_mix;
+    int     f_mix;
     int     ceil[3];
     int     floor[3];
 }   t_colors;
@@ -65,6 +67,27 @@ typedef struct s_ray_casting
     double cy_plane;
     double x_facing_dir;
     double y_facing_dir;
+    double ray_dx;
+    double ray_dy;
+    double side_x;
+    double side_y;
+    double delta_x;
+    double delta_y;
+    double dist;
+    int line_height;
+    int map_x;
+    int map_y;
+    int step_x;
+    int step_y;
+    int side;
+    int start;
+    int end;
+    int tex_id;
+    int tex_x;
+    int tex_y;
+    int i;
+    double step;
+    double tex_pos;
 }   t_ray_casting;
 
 typedef struct s_texture
