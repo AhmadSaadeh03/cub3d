@@ -6,7 +6,7 @@
 /*   By: maemran < maemran@student.42amman.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 17:31:14 by asaadeh           #+#    #+#             */
-/*   Updated: 2025/08/23 17:19:47 by maemran          ###   ########.fr       */
+/*   Updated: 2025/08/23 20:05:31 by maemran          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@
 #include <X11/keysym.h>
 #include <math.h>
 
-# define WIDTH              1000
-# define HIGHT              600
+# define WIDTH              1600
+# define HIGHT              900
 # define FOV_FACTOR         0.7071
 # define MOVESPEED          0.1
 # define ROTATSPEED         0.1
@@ -109,12 +109,34 @@ typedef struct s_cub3d
     t_texture       **tex;
 }   t_cub3d;
 
-void    init_structs(t_cub3d *g);
-void    free_structs(t_cub3d *g);
-int     init_textures(t_cub3d *g);
-void    free_textures(t_cub3d *g);
-void    free_map(t_cub3d *g);
-void    destroy_mlx(t_cub3d *g);
-void    exit_window(t_cub3d *g);
+void        init_structs(t_cub3d *g);
+void        free_structs(t_cub3d *g);
+int         init_textures(t_cub3d *g);
+void        free_textures(t_cub3d *g);
+void        free_map(t_cub3d *g);
+void        destroy_mlx(t_cub3d *g);
+void        exit_window(t_cub3d *g);
+void        set_texture_index(t_cub3d *g);
+void        texture_position(t_cub3d *g);
+void        load_texture(t_cub3d *g, int index, char *path);
+void        first_intersections(t_cub3d *g);
+void        set_rc_values(t_cub3d *g, double camera_x);
+void        dda_algorithm(t_cub3d *g);
+void        find_distance(t_cub3d *g);
+void        cast_ray(t_cub3d *g, int screen_x);
+void        draw_ceiling(t_cub3d *g, int screen_x);
+void        draw_walls(t_cub3d *g, int screen_x);
+void        draw_floor(t_cub3d *g, int screen_x);
+void        get_ceiling_color(t_cub3d *g);
+void        get_floor_color(t_cub3d *g);
+void        set_directions_values(t_cub3d *g);
+int         check_map_cell(t_cub3d *g, int x, int y);
+void        rotate_player(t_cub3d *g, double angle);
+void        move_player(t_cub3d *g, double move_x, double move_y);
+int         key_press(int key, t_cub3d *g);
+void        put_pixel(t_cub3d *g, int x, int y, int color);
+int         get_texture_pixel(t_texture *tex, int x, int y);
+void        free_map(t_cub3d *g);
 t_cub3d     *prepare_before_ray_casting(t_cub3d *g, t_colors *colors, t_vars *data, t_directions *dir);
+
 #endif

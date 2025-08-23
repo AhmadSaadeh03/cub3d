@@ -4,7 +4,8 @@ MLX_DIR = ./mlx
 MLX_FLAGS = -L$(MLX_DIR) -lm -lmlx -lXext -lX11
 LIBFT_DIR = ./libft
 NAME = cub3d
-SRC = utils.c additional_files.c main.c
+
+SRC = utils.c additional_files.c main.c textures_config.c ray_casting.c draw.c movement.c initialization.c
 
 OBJ = $(SRC:.c=.o)
 

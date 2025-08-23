@@ -6,7 +6,7 @@
 /*   By: maemran < maemran@student.42amman.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/21 18:16:04 by maemran           #+#    #+#             */
-/*   Updated: 2025/08/23 17:26:41 by maemran          ###   ########.fr       */
+/*   Updated: 2025/08/23 17:57:43 by maemran          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,15 +96,3 @@ void    parsing_part(t_vars *data, t_directions *dir, t_colors *colors)
     dir->west = "./textures/wood.xpm";
 }
 
-void    free_map(t_cub3d *g)
-{
-    int i;
-
-    i = 0;
-    while (g->data->map[i])
-    {
-        free(g->data->map[i]);
-        i++;
-    }
-    free(g->data->map);
-}
