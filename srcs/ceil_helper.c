@@ -6,7 +6,7 @@
 /*   By: asaadeh <asaadeh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 17:39:10 by asaadeh           #+#    #+#             */
-/*   Updated: 2025/08/21 19:21:26 by asaadeh          ###   ########.fr       */
+/*   Updated: 2025/08/23 16:20:20 by asaadeh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	set_ceil(t_parsing *parsing, t_vars *vars, t_directions *directions)
 	j = 0;
 	if (!get_ceil_line(parsing))
 	{
-		write(2,"Error\nC Rule Does Not Found\n", 29);
+		write(2, "Error\nC Rule Does Not Found\n", 29);
 		free_all_and_exit(parsing, vars, directions);
 	}
 	while (parsing->file[parsing->ceil_line][j]
@@ -80,7 +80,8 @@ static void	check_comma_pos(t_parsing *parsing, t_vars *vars,
 {
 	if (!ft_isdigit(parsing->ceil[i + 1]) || !ft_isdigit(parsing->ceil[i - 1]))
 	{
-		write(2,"Error\nafter and before comma should be number in ceil line",59);
+		write(2, "Error\nafter and before comma should be number in ceil line",
+			59);
 		free_all_and_exit(parsing, vars, directions);
 	}
 }
@@ -98,7 +99,7 @@ void	check_comma_in_ceil(t_parsing *parsing, t_vars *vars,
 		if (!ft_isalnum(parsing->ceil[i]) && parsing->ceil[i] != ','
 			&& parsing->ceil[i] != 'C')
 		{
-			write(2,"Error\ninvalid char in ceil line",32);
+			write(2, "Error\ninvalid char in ceil line", 32);
 			free_all_and_exit(parsing, vars, directions);
 		}
 		if (parsing->ceil[i] == ',')
@@ -110,7 +111,7 @@ void	check_comma_in_ceil(t_parsing *parsing, t_vars *vars,
 	}
 	if (count_comma != 2)
 	{
-		write(2,"Error\nthe number of comma is wrong in ceil line",48);
+		write(2, "Error\nthe number of comma is wrong in ceil line", 48);
 		free_all_and_exit(parsing, vars, directions);
 	}
 }

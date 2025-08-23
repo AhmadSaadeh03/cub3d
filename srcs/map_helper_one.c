@@ -6,7 +6,7 @@
 /*   By: asaadeh <asaadeh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/21 18:46:56 by asaadeh           #+#    #+#             */
-/*   Updated: 2025/08/21 19:38:18 by asaadeh          ###   ########.fr       */
+/*   Updated: 2025/08/23 16:39:47 by asaadeh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	check_elements(t_parsing *parsing, t_vars *vars,
 		{
 			if (validate_map_char(vars, i, j, &count) < 0)
 			{
-				write(2, "Error\nundefined element inside the map\n", 41);
+				write(2, "Error\nundefined element inside the map\n", 40);
 				free_all_and_exit(parsing, vars, directions);
 			}
 			j++;
@@ -72,5 +72,5 @@ void	check_elements(t_parsing *parsing, t_vars *vars,
 		print_and_free(parsing, vars, directions,
 			"Error\nthere is no player or more than one player\n");
 	if (validate_map(vars))
-		free_all_and_exit(parsing, vars, directions);
+		print_and_free(parsing, vars, directions, "Error\ninvalid path");
 }

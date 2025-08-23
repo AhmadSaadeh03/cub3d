@@ -19,7 +19,7 @@ void	check_valid_numbers(t_parsing *parsing, t_vars *vars,
 		|| !(colors->ceil[1] >= 0 && colors->ceil[1] <= 255)
 		|| !(colors->ceil[2] >= 0 && colors->ceil[2] <= 255))
 	{
-		write(2,"Error\ninvalid numbers in ceil line",35);
+		write(2, "Error\ninvalid numbers in ceil line", 35);
 		free(colors);
 		free_all_and_exit(parsing, vars, directions);
 	}
@@ -27,7 +27,7 @@ void	check_valid_numbers(t_parsing *parsing, t_vars *vars,
 		|| !(colors->floor[1] >= 0 && colors->floor[1] <= 255)
 		|| !(colors->floor[2] >= 0 && colors->floor[2] <= 255))
 	{
-		write(2,"Error\ninvalid numbers in floor line",36);
+		write(2, "Error\ninvalid numbers in floor line", 36);
 		free(colors);
 		free_all_and_exit(parsing, vars, directions);
 	}

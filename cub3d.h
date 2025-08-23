@@ -6,7 +6,7 @@
 /*   By: asaadeh <asaadeh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 17:31:14 by asaadeh           #+#    #+#             */
-/*   Updated: 2025/08/21 19:18:16 by asaadeh          ###   ########.fr       */
+/*   Updated: 2025/08/23 16:41:42 by asaadeh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ typedef struct  s_colors
 {
 
     //range between 0 to 255
+    int c_mix;
+    int f_mix;
     int ceil[3];//int 0->R 1->G 2->B
     int floor[3];
 }   t_colors;
@@ -87,8 +89,10 @@ void	check_comma_in_ceil(t_parsing *parsing, t_vars *vars,t_directions *directio
 
 void init_floor(t_parsing *parsing,t_vars *vars,t_directions *directions);
 void  get_floor_number(t_parsing *parsing,t_vars *vars,t_directions *directions,t_colors *colors);
+void	set_floor(t_parsing *parsing, t_vars *vars, t_directions *directions);
+void	check_comma_in_floor(t_parsing *parsing, t_vars *vars,t_directions *directions);
+
 void check_valid_numbers(t_parsing *parsing,t_vars *vars,t_directions *directions,t_colors *colors);
-void print_map(t_vars *vars);
 int is_this_map(t_parsing *parsing,int i);
 int validate_map(t_vars *vars);
 void restore_map(t_vars *vars);
@@ -99,8 +103,12 @@ void init_colors(t_parsing *parsing,t_vars *vars,t_directions *directions);
 void free_vars(t_vars *vars);
 void	free_string(char **string, int i);
 void	free_all_and_exit_two(t_parsing *parsing, t_vars *vars,t_directions *directions,char *line);
-void	set_floor(t_parsing *parsing, t_vars *vars, t_directions *directions);
-void	check_comma_in_floor(t_parsing *parsing, t_vars *vars,t_directions *directions);
 void check_image_path(t_parsing *parsing,t_vars *vars,t_directions *directinos);
 void print_and_free(t_parsing *parsing, t_vars *vars, t_directions *directions,char *str);
+void	check_walls_two(t_parsing *parsing, t_vars *vars, t_directions *directions);
+int	get_last_line(t_vars *vars, t_parsing *parsing);
+void	check_space_in_ceil(t_parsing *parsing, t_vars *vars,t_directions *directions);
+void	check_letter_on_ceil(t_parsing *parsing, t_vars *vars,t_directions *directions);
+void	check_space_in_floor(t_parsing *parsing, t_vars *vars,t_directions *directions);
+void	check_letter_on_floor(t_parsing *parsing, t_vars *vars,t_directions *directions);
 #endif

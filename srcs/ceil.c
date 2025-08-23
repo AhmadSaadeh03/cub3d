@@ -6,7 +6,7 @@
 /*   By: asaadeh <asaadeh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 20:07:24 by asaadeh           #+#    #+#             */
-/*   Updated: 2025/08/21 19:21:56 by asaadeh          ###   ########.fr       */
+/*   Updated: 2025/08/23 16:31:50 by asaadeh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ char	*init_ceil_numbers(t_parsing *parsing, t_vars *vars,
 	count -= 1;
 	line = malloc(sizeof(char) * count + 1);
 	if (!line)
-		free_all_and_exit(parsing, vars, directions);
+		print_and_free(parsing, vars, directions, "Error\nmalloc error");
 	while (parsing->ceil[i])
 	{
 		line[j] = parsing->ceil[i];
@@ -67,32 +67,6 @@ t_colors	*get_ceil_number(t_parsing *parsing, t_vars *vars,
 	return (colors);
 }
 
-void	check_letter_on_ceil(t_parsing *parsing, t_vars *vars,
-		t_directions *directions)
-{
-	int		i;
-	int		count;
-	char	c;
-
-	i = 0;
-	count = 0;
-	while (parsing->file[parsing->ceil_line][i] != '\n'
-		&& parsing->file[parsing->ceil_line][i])
-	{
-		if (ft_isalpha(parsing->file[parsing->ceil_line][i]))
-		{
-			c = parsing->file[parsing->ceil_line][i];
-			count++;
-		}
-		i++;
-	}
-	if (count != 1 || c != 'C')
-	{
-		write(2,"Error\non ceil line",19);
-		free_all_and_exit(parsing, vars, directions);
-	}
-}
-
 void	assign_ceil(t_parsing *parsing, t_vars *vars, t_directions *directions,
 		int count)
 {
@@ -103,7 +77,7 @@ void	assign_ceil(t_parsing *parsing, t_vars *vars, t_directions *directions,
 	k = 0;
 	parsing->ceil = malloc(sizeof(char) * (count + 1));
 	if (!parsing->ceil)
-		free_all_and_exit(parsing, vars, directions);
+		print_and_free(parsing, vars, directions, "Error\nmalloc error\n");
 	while (parsing->file[parsing->ceil_line][j] && k < count)
 	{
 		if (parsing->file[parsing->ceil_line][j] != ' '
@@ -117,6 +91,24 @@ void	assign_ceil(t_parsing *parsing, t_vars *vars, t_directions *directions,
 	parsing->ceil[k] = '\0';
 }
 
+void	check_number_on_ceil(t_parsing *parsing, t_vars *vars,
+		t_directions *directions)
+{
+	int	i;
+
+	i = 0;
+	while (parsing->file[parsing->ceil_line][i] != '\n'
+		&& parsing->file[parsing->ceil_line][i]
+		&& parsing->file[parsing->ceil_line][i] != 'C')
+	{
+		if ((parsing->file[parsing->ceil_line][i] != ' '
+				&& parsing->file[parsing->ceil_line][i] != '\t'))
+			print_and_free(parsing, vars, directions,
+				"Error\nthere is somthing before ceil");
+		i++;
+	}
+}
+
 void	init_ceil(t_parsing *parsing, t_vars *vars, t_directions *directions)
 {
 	int	j;
@@ -126,6 +118,7 @@ void	init_ceil(t_parsing *parsing, t_vars *vars, t_directions *directions)
 
 	j = 0;
 	set_ceil(parsing, vars, directions);
+	check_space_in_ceil(parsing, vars, directions);
 	save_first = parsing->first_ceil;
 	save_last = parsing->last_ceil;
 	count = 0;
@@ -142,5 +135,5 @@ void	init_ceil(t_parsing *parsing, t_vars *vars, t_directions *directions)
 	assign_ceil(parsing, vars, directions, count);
 	init_floor(parsing, vars, directions);
 	check_letter_on_ceil(parsing, vars, directions);
-	check_comma_in_ceil(parsing, vars, directions);
+	check_number_on_ceil(parsing, vars, directions);
 }
