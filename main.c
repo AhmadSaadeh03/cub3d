@@ -6,7 +6,7 @@
 /*   By: maemran < maemran@student.42amman.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/21 14:29:35 by maemran           #+#    #+#             */
-/*   Updated: 2025/08/23 20:10:21 by maemran          ###   ########.fr       */
+/*   Updated: 2025/08/24 14:05:11 by maemran          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,6 @@
 
 void init_map(t_vars *g);
 void    parsing_part(t_vars *data, t_directions *dir, t_colors *colors);
-
-void put_pixel(t_cub3d *g, int x, int y, int color)
-{
-    *(int*)(g->data->img_addr + 
-        y * g->data->line_length + x* (g->data->bpp / 8)) = color;
-}
-
-int get_texture_pixel(t_texture *tex, int x, int y)
-{
-    int pixel;
-    
-    if (x < 0 || x >= TEX_SIZE || y < 0 || y >= TEX_SIZE)
-        return (0);
-    pixel = *(int*)(tex->addr + y * tex->line_len + x * (tex->bpp/8));
-    return (pixel);
-}
 
 int rendering(t_cub3d *g)
 {
@@ -40,7 +24,8 @@ int rendering(t_cub3d *g)
         cast_ray(g, x);
         x++;
     }
-    mlx_put_image_to_window(g->data->mlx, g->data->win, g->data->img_buffer, 0, 0);
+    mlx_put_image_to_window(g->data->mlx, g->data->win,
+        g->data->img_buffer, 0, 0);
     return 0;
 }
 
@@ -63,6 +48,27 @@ int mouse_move(int x, int y, t_cub3d *g)
         rotate_player(g, -ROTATSPEED / 4);
     last_x = x;
     return (0);
+}
+
+void    mlx_manage(t_cub3d *g)
+{
+    g->data->mlx = mlx_init();
+    g->data->win = mlx_new_window(g->data->mlx, WIDTH, HIGHT, "CUB3D");
+    g->data->img_buffer = mlx_new_image(g->data->mlx, WIDTH, HIGHT);
+    g->data->img_addr = mlx_get_data_addr(g->data->img_buffer,
+        &g->data->bpp, &g->data->line_length, &g->data->endian);
+    set_directions_values(g);
+    load_texture (g, 0, g->dir->north);
+    load_texture (g, 1, g->dir->south);
+    load_texture (g, 2, g->dir->east);
+    load_texture (g, 3, g->dir->west);
+    get_ceiling_color(g);
+    get_floor_color (g);
+    mlx_hook(g->data->win, 2, 1L << 0, key_press, g);
+    mlx_hook(g->data->win, 17, 0, close_button, g);
+    mlx_hook(g->data->win, 6, 1L << 6, mouse_move, g);
+    mlx_loop_hook(g->data->mlx, rendering, g);
+    mlx_loop(g->data->mlx);
 }
 
 int main(int argc, char **argv)
@@ -88,22 +94,6 @@ int main(int argc, char **argv)
         ft_putstr_fd("Error\nMemory allocation failure\n", 2);
         return (1);
     }
-    g->data->mlx = mlx_init();
-    g->data->win = mlx_new_window(g->data->mlx, WIDTH, HIGHT, "CUB3D");
-    g->data->img_buffer = mlx_new_image(g->data->mlx, WIDTH, HIGHT);
-    g->data->img_addr = mlx_get_data_addr(g->data->img_buffer,
-        &g->data->bpp, &g->data->line_length, &g->data->endian);
-    set_directions_values(g);
-    load_texture (g, 0, g->dir->north);
-    load_texture (g, 1, g->dir->south);
-    load_texture (g, 2, g->dir->east);
-    load_texture (g, 3, g->dir->west);
-    get_ceiling_color(g);
-    get_floor_color (g);
-    mlx_hook(g->data->win, 2, 1L << 0, key_press, g);
-    mlx_hook(g->data->win, 17, 0, close_button, g);
-    mlx_hook(g->data->win, 6, 1L << 6, mouse_move, g);
-    mlx_loop_hook(g->data->mlx, rendering, g);
-    mlx_loop(g->data->mlx);
+    mlx_manage(g);
     return (0);
 }

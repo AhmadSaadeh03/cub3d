@@ -6,7 +6,7 @@
 /*   By: maemran < maemran@student.42amman.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/23 17:55:59 by maemran           #+#    #+#             */
-/*   Updated: 2025/08/23 17:56:38 by maemran          ###   ########.fr       */
+/*   Updated: 2025/08/24 13:59:46 by maemran          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ int     check_map_cell(t_cub3d *g, int x, int y)
     return (0);
 }
 
-/***** modify this code later by remove old_dx and old_cx variables */
 void rotate_player(t_cub3d *g, double angle)
 {
     double old_dx;

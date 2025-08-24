@@ -6,11 +6,27 @@
 /*   By: maemran < maemran@student.42amman.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/23 17:38:14 by maemran           #+#    #+#             */
-/*   Updated: 2025/08/23 17:44:47 by maemran          ###   ########.fr       */
+/*   Updated: 2025/08/24 14:04:06 by maemran          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+void put_pixel(t_cub3d *g, int x, int y, int color)
+{
+    *(int*)(g->data->img_addr + 
+        y * g->data->line_length + x* (g->data->bpp / 8)) = color;
+}
+
+int get_texture_pixel(t_texture *tex, int x, int y)
+{
+    int pixel;
+    
+    if (x < 0 || x >= TEX_SIZE || y < 0 || y >= TEX_SIZE)
+        return (0);
+    pixel = *(int*)(tex->addr + y * tex->line_len + x * (tex->bpp/8));
+    return (pixel);
+}
 
 void    set_texture_index(t_cub3d *g)
 {
