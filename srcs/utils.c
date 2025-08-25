@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maemran < maemran@student.42amman.com>     +#+  +:+       +#+        */
+/*   By: asaadeh <asaadeh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 20:16:15 by maemran           #+#    #+#             */
-/*   Updated: 2025/08/25 10:46:21 by maemran          ###   ########.fr       */
+/*   Updated: 2025/08/25 14:59:06 by asaadeh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "../cub3d.h"
 
 void	free_textures(t_cub3d *g)
 {
@@ -60,6 +60,10 @@ void	exit_window(t_cub3d *g)
 	destroy_mlx(g);
 	free_map(g);
 	free_textures(g);
+	free(g->dir->east);
+	free(g->dir->north);
+	free(g->dir->west);
+	free(g->dir->south);
 	free_structs(g);
 	exit(0);
 }

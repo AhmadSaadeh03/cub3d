@@ -6,13 +6,13 @@
 /*   By: asaadeh <asaadeh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/23 16:23:40 by asaadeh           #+#    #+#             */
-/*   Updated: 2025/08/25 13:18:50 by asaadeh          ###   ########.fr       */
+/*   Updated: 2025/08/25 15:45:08 by asaadeh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-void	check_space_after_number(t_parsing *parsing, t_vars *vars,
+static void	check_space_after_number(t_parsing *parsing, t_vars *vars,
 		t_directions *directions, int j)
 {
 	int	k;
@@ -54,7 +54,7 @@ void	check_space_in_ceil(t_parsing *parsing, t_vars *vars,
 	}
 }
 
-void	check_space_after_number_f(t_parsing *parsing, t_vars *vars,
+static void	check_space_after_number_f(t_parsing *parsing, t_vars *vars,
 		t_directions *directions, int j)
 {
 	int	k;

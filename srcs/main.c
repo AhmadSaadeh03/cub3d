@@ -5,63 +5,52 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: asaadeh <asaadeh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/10 18:56:44 by asaadeh           #+#    #+#             */
-/*   Updated: 2025/08/25 13:02:27 by asaadeh          ###   ########.fr       */
+/*   Created: 2025/08/21 14:29:35 by maemran           #+#    #+#             */
+/*   Updated: 2025/08/25 16:29:45 by asaadeh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-void	finish_game(t_parsing *parsing, t_vars *vars, t_directions *directions,
-		t_colors *colors)
+static void	program_check(int argc, char **argv)
 {
-	free_parsing(parsing);
-	free_directions(directions);
-	free_vars(vars);
-	if (colors)
+	if (argc != 2)
+		exit(1);
+	if (!valid_extension(argv))
+	{
+		write(2, "Error\n the extension of the file is wrong", 42);
+		exit(1);
+	}
+}
+
+static t_colors	*check_and_init(t_parsing *parsing, t_vars *vars,
+		t_directions *directions)
+{
+	t_colors	*colors;
+
+	check_lines(parsing, vars, directions);
+	check_walls(parsing, vars, directions);
+	check_image_path(parsing, vars, directions);
+	colors = get_ceil_number(parsing, vars, directions);
+	if (!colors)
+	{
 		free(colors);
-	exit(0);
-}
-
-int	valid_extension(char **argv)
-{
-	char	*name;
-	int		len;
-
-	name = argv[1];
-	len = ft_strlen(name);
-	if (name[len - 1] == 'b' && name[len - 2] == 'u' && name[len - 3] == 'c'
-		&& name[len - 4] == '.' && ft_isalnum(name[len - 5]))
-		return (1);
-	return (0);
-}
-
-static int	is_map_line(t_parsing *parsing, int i)
-{
-	int	j;
-
-	j = 0;
-	while (parsing->file[i][j] && parsing->file[i][j] != '\n')
-	{
-		if (parsing->file[i][j] == '1' && is_this_map(parsing, i))
-			return (1);
-		j++;
+		free_all_and_exit(parsing, vars, directions);
 	}
-	return (0);
+	free_parsing(parsing);
+	return (colors);
 }
 
-int	first_line(t_parsing *parsing)
+static void	ray_casting_part(t_cub3d *g, t_colors *colors, t_vars *vars,
+		t_directions *directions)
 {
-	int	i;
-
-	i = 0;
-	while (parsing->file[i])
+	g = prepare_before_ray_casting(g, colors, vars, directions);
+	if (!g)
 	{
-		if (is_map_line(parsing, i))
-			return (i);
-		i++;
+		ft_putstr_fd("Error\nMemory allocation failure\n", 2);
+		exit(1);
 	}
-	return (0);
+	mlx_manage(g);
 }
 
 int	main(int argc, char **argv)
@@ -69,14 +58,11 @@ int	main(int argc, char **argv)
 	t_parsing		*parsing;
 	t_directions	*directions;
 	t_vars			*vars;
+	t_cub3d			*g;
+	t_colors		*colors;
 
-	if (argc != 2)
-		return (1);
-	if (!valid_extension(argv))
-	{
-		write(2, "Error\n the extension of the file is wrong", 42);
-		return (1);
-	}
+	program_check(argc, argv);
+	g = NULL;
 	parsing = malloc(sizeof(t_parsing));
 	if (!parsing)
 		return (1);
@@ -91,7 +77,7 @@ int	main(int argc, char **argv)
 	vars = init_map(parsing);
 	if (!vars)
 		free_all_and_exit(parsing, vars, directions);
-	check_lines(parsing, vars, directions);
-	check_walls(parsing, vars, directions);
-	init_colors(parsing, vars, directions);
+	colors = check_and_init(parsing, vars, directions);
+	ray_casting_part(g, colors, vars, directions);
+	return (0);
 }

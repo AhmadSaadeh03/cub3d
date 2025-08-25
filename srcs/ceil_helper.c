@@ -6,7 +6,7 @@
 /*   By: asaadeh <asaadeh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 17:39:10 by asaadeh           #+#    #+#             */
-/*   Updated: 2025/08/23 16:20:20 by asaadeh          ###   ########.fr       */
+/*   Updated: 2025/08/25 16:00:53 by asaadeh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,30 @@ static void	check_first_last_ceil(t_parsing *parsing, t_vars *vars,
 		write(2, "Error\non init ceil", 19);
 		free_all_and_exit(parsing, vars, directions);
 	}
+}
+
+static int	get_ceil_line(t_parsing *parsing)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	while (parsing->file[i])
+	{
+		j = 0;
+		while (parsing->file[i][j] && parsing->file[i][j] != '\n')
+		{
+			if (parsing->file[i][j] == 'C')
+			{
+				parsing->ceil_line = i;
+				return (1);
+			}
+			j++;
+		}
+		i++;
+	}
+	return (0);
 }
 
 void	set_ceil(t_parsing *parsing, t_vars *vars, t_directions *directions)
@@ -49,30 +73,6 @@ void	set_ceil(t_parsing *parsing, t_vars *vars, t_directions *directions)
 		j++;
 	}
 	check_first_last_ceil(parsing, vars, directions);
-}
-
-int	get_ceil_line(t_parsing *parsing)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	j = 0;
-	while (parsing->file[i])
-	{
-		j = 0;
-		while (parsing->file[i][j] && parsing->file[i][j] != '\n')
-		{
-			if (parsing->file[i][j] == 'C')
-			{
-				parsing->ceil_line = i;
-				return (1);
-			}
-			j++;
-		}
-		i++;
-	}
-	return (0);
 }
 
 static void	check_comma_pos(t_parsing *parsing, t_vars *vars,

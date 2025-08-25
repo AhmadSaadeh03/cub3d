@@ -6,13 +6,13 @@
 /*   By: asaadeh <asaadeh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 20:07:24 by asaadeh           #+#    #+#             */
-/*   Updated: 2025/08/25 12:55:44 by asaadeh          ###   ########.fr       */
+/*   Updated: 2025/08/25 16:00:37 by asaadeh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-void	check_letter_on_ceil(t_parsing *parsing, t_vars *vars,
+static void	check_letter_on_ceil(t_parsing *parsing, t_vars *vars,
 		t_directions *directions)
 {
 	int		i;
@@ -63,8 +63,8 @@ char	*init_ceil_numbers(t_parsing *parsing, t_vars *vars,
 	return (line);
 }
 
-void	assign_ceil(t_parsing *parsing, t_vars *vars, t_directions *directions,
-		int count)
+static void	assign_ceil(t_parsing *parsing, t_vars *vars,
+		t_directions *directions, int count)
 {
 	int	j;
 	int	k;
@@ -87,7 +87,7 @@ void	assign_ceil(t_parsing *parsing, t_vars *vars, t_directions *directions,
 	parsing->ceil[k] = '\0';
 }
 
-void	check_number_on_ceil(t_parsing *parsing, t_vars *vars,
+static void	check_number_on_ceil(t_parsing *parsing, t_vars *vars,
 		t_directions *directions)
 {
 	int	i;

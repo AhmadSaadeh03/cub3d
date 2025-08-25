@@ -6,13 +6,13 @@
 /*   By: asaadeh <asaadeh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 20:16:11 by asaadeh           #+#    #+#             */
-/*   Updated: 2025/08/25 13:00:57 by asaadeh          ###   ########.fr       */
+/*   Updated: 2025/08/25 16:01:54 by asaadeh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-void	check_letter_on_floor(t_parsing *parsing, t_vars *vars,
+static void	check_letter_on_floor(t_parsing *parsing, t_vars *vars,
 		t_directions *directions)
 {
 	int		i;
@@ -68,7 +68,7 @@ char	*init_floor_numbers(t_parsing *parsing, t_vars *vars,
 	return (line);
 }
 
-void	check_number_on_floor(t_parsing *parsing, t_vars *vars,
+static void	check_number_on_floor(t_parsing *parsing, t_vars *vars,
 		t_directions *directions)
 {
 	int	i;
@@ -86,8 +86,8 @@ void	check_number_on_floor(t_parsing *parsing, t_vars *vars,
 	}
 }
 
-void	assign_floor(t_parsing *parsing, t_vars *vars, t_directions *directions,
-		int count)
+static void	assign_floor(t_parsing *parsing, t_vars *vars,
+		t_directions *directions, int count)
 {
 	int	j;
 	int	k;

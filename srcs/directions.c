@@ -6,13 +6,13 @@
 /*   By: asaadeh <asaadeh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 16:37:54 by asaadeh           #+#    #+#             */
-/*   Updated: 2025/08/25 13:19:20 by asaadeh          ###   ########.fr       */
+/*   Updated: 2025/08/25 16:01:35 by asaadeh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-int	count_res_lines(char *line)
+static int	count_res_lines(char *line)
 {
 	int	j;
 	int	count;
@@ -34,7 +34,7 @@ int	count_res_lines(char *line)
 	return (count);
 }
 
-int	is_one_time(t_parsing *parsing)
+static int	is_one_time(t_parsing *parsing)
 {
 	int	i;
 	int	total_count;

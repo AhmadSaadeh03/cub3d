@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   draw.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maemran < maemran@student.42amman.com>     +#+  +:+       +#+        */
+/*   By: asaadeh <asaadeh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/23 17:48:49 by maemran           #+#    #+#             */
-/*   Updated: 2025/08/25 10:43:02 by maemran          ###   ########.fr       */
+/*   Updated: 2025/08/25 16:04:42 by asaadeh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "../cub3d.h"
 
 void	draw_ceiling(t_cub3d *g, int screen_x)
 {
@@ -48,8 +48,8 @@ void	draw_floor(t_cub3d *g, int screen_x)
 
 void	get_ceiling_color(t_cub3d *g)
 {
-	g->color->c_mix = (g->color->ceil[0] << 16)
-		| (g->color->ceil[1] << 8) | g->color->ceil[2];
+	g->color->c_mix = (g->color->ceil[0] << 16) | (g->color->ceil[1] << 8)
+		| g->color->ceil[2];
 }
 
 void	get_floor_color(t_cub3d *g)

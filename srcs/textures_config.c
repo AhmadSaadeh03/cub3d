@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   textures_config.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maemran < maemran@student.42amman.com>     +#+  +:+       +#+        */
+/*   By: asaadeh <asaadeh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/23 17:38:14 by maemran           #+#    #+#             */
-/*   Updated: 2025/08/24 14:04:06 by maemran          ###   ########.fr       */
+/*   Updated: 2025/08/25 14:22:30 by asaadeh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "../cub3d.h"
 
 void	put_pixel(t_cub3d *g, int x, int y, int color)
 {

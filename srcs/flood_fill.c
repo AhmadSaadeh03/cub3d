@@ -6,7 +6,7 @@
 /*   By: asaadeh <asaadeh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 14:29:20 by asaadeh           #+#    #+#             */
-/*   Updated: 2025/08/23 16:42:46 by asaadeh          ###   ########.fr       */
+/*   Updated: 2025/08/25 15:49:42 by asaadeh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	get_max_width(t_vars *vars)
 	vars->map_width = max;
 }
 
-int	flood_from_player(t_vars *vars, int y, int x)
+static int	flood_from_player(t_vars *vars, int y, int x)
 {
 	int		row_len;
 	char	tile;
@@ -57,7 +57,7 @@ int	flood_from_player(t_vars *vars, int y, int x)
 	return (0);
 }
 
-int	flood_from_remaining_zero(t_vars *vars, int y, int x)
+static int	flood_from_remaining_zero(t_vars *vars, int y, int x)
 {
 	int		row_len;
 	char	tile;

@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   mlx_manage.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maemran <maemran@student.42.fr>            +#+  +:+       +#+        */
+/*   By: asaadeh <asaadeh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/21 14:29:35 by maemran           #+#    #+#             */
-/*   Updated: 2025/08/25 13:30:05 by maemran          ###   ########.fr       */
+/*   Created: 2025/08/25 15:35:42 by asaadeh           #+#    #+#             */
+/*   Updated: 2025/08/25 15:57:15 by asaadeh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "../cub3d.h"
 
-int	rendering(t_cub3d *g)
+static int	rendering(t_cub3d *g)
 {
 	int	x;
 
@@ -27,13 +27,13 @@ int	rendering(t_cub3d *g)
 	return (0);
 }
 
-int	close_button(t_cub3d *g)
+static int	close_button(t_cub3d *g)
 {
 	exit_window(g);
 	return (0);
 }
 
-int	mouse_move(int x, int y, t_cub3d *g)
+static int	mouse_move(int x, int y, t_cub3d *g)
 {
 	static int	last_x = WIDTH / 2;
 	int			delta_x;
@@ -68,30 +68,3 @@ void	mlx_manage(t_cub3d *g)
 	mlx_loop_hook(g->data->mlx, rendering, g);
 	mlx_loop(g->data->mlx);
 }
-
-// int magfgfdgdfin(int argc, char **argv)
-// {
-//     (void)argc;
-//     (void)argv;
-//     t_cub3d *g;
-    
-//     /*************************************/
-//     /********** PARSING PART ************/
-//     /***********************************/
-    
-//     t_vars  *data = malloc(sizeof(t_vars));
-//     t_colors *colors = malloc(sizeof(t_colors));
-//     t_directions    *dir = malloc(sizeof(t_directions));
-
-//     parsing_part(data, dir, colors);
-//     /*********************************/
-//     g = NULL;
-//     g = prepare_before_ray_casting(g, colors, data, dir);
-//     if (!g)
-//     {
-//         ft_putstr_fd("Error\nMemory allocation failure\n", 2);
-//         return (1);
-//     }
-//     mlx_manage(g);
-//     return (0);
-// }
