@@ -6,7 +6,7 @@
 /*   By: asaadeh <asaadeh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 17:31:14 by asaadeh           #+#    #+#             */
-/*   Updated: 2025/08/25 16:14:58 by asaadeh          ###   ########.fr       */
+/*   Updated: 2025/08/25 16:42:44 by asaadeh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@
 # include <mlx.h>
 # include <stdlib.h>
 
-# define WIDTH 1000
-# define HIGHT 600
+# define WIDTH 1500
+# define HIGHT 900
 # define FOV_FACTOR 0.7071
 # define MOVESPEED 0.1
 # define ROTATSPEED 0.1
