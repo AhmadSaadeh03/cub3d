@@ -19,6 +19,7 @@ void	init_directions(t_directions *directions)
 	directions->south = NULL;
 	directions->west = NULL;
 }
+
 void	init_parsing(t_parsing *parsing)
 {
 	parsing->ceil = NULL;
@@ -31,6 +32,7 @@ void	init_parsing(t_parsing *parsing)
 	parsing->last_ceil = -1;
 	parsing->last_floor = -1;
 }
+
 int	init_parsing_directions(t_parsing *parsing, t_directions *directions,
 		char *argv)
 {
@@ -46,16 +48,7 @@ int	init_parsing_directions(t_parsing *parsing, t_directions *directions,
 	set_directions(parsing, directions);
 	return (1);
 }
-void	finish_game(t_parsing *parsing, t_vars *vars, t_directions *directions,
-		t_colors *colors)
-{
-	free_parsing(parsing);
-	free_directions(directions);
-	free_vars(vars);
-	if (colors)
-		free(colors);
-	exit(0);
-}
+
 void	init_colors(t_parsing *parsing, t_vars *vars, t_directions *directions)
 {
 	t_colors	*colors;
@@ -68,22 +61,28 @@ void	init_colors(t_parsing *parsing, t_vars *vars, t_directions *directions)
 	}
 	finish_game(parsing, vars, directions, colors);
 }
+
 void	check_image_path(t_parsing *parsing, t_vars *vars,
 		t_directions *directinos)
 {
-	int fd_ea = open(directinos->east, O_RDONLY);
+	int	fd_ea;
+	int	fd_no;
+	int	fd_so;
+	int	fd_we;
+
+	fd_ea = open(directinos->east, O_RDONLY);
 	if (fd_ea == -1)
 		free_all_and_exit(parsing, vars, directinos);
 	close(fd_ea);
-	int fd_no = open(directinos->north, O_RDONLY);
+	fd_no = open(directinos->north, O_RDONLY);
 	if (fd_no == -1)
 		free_all_and_exit(parsing, vars, directinos);
 	close(fd_no);
-	int fd_so = open(directinos->south, O_RDONLY);
+	fd_so = open(directinos->south, O_RDONLY);
 	if (fd_so == -1)
 		free_all_and_exit(parsing, vars, directinos);
 	close(fd_so);
-	int fd_we = open(directinos->west, O_RDONLY);
+	fd_we = open(directinos->west, O_RDONLY);
 	if (fd_we == -1)
 		free_all_and_exit(parsing, vars, directinos);
 	close(fd_we);

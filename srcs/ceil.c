@@ -6,11 +6,37 @@
 /*   By: asaadeh <asaadeh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 20:07:24 by asaadeh           #+#    #+#             */
-/*   Updated: 2025/08/23 16:31:50 by asaadeh          ###   ########.fr       */
+/*   Updated: 2025/08/25 12:55:44 by asaadeh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
+
+void	check_letter_on_ceil(t_parsing *parsing, t_vars *vars,
+		t_directions *directions)
+{
+	int		i;
+	int		count;
+	char	c;
+
+	i = 0;
+	count = 0;
+	while (parsing->file[parsing->ceil_line][i] != '\n'
+		&& parsing->file[parsing->ceil_line][i])
+	{
+		if (ft_isalpha(parsing->file[parsing->ceil_line][i]))
+		{
+			c = parsing->file[parsing->ceil_line][i];
+			count++;
+		}
+		i++;
+	}
+	if (count != 1 || c != 'C')
+	{
+		write(2, "Error\non ceil line", 19);
+		free_all_and_exit(parsing, vars, directions);
+	}
+}
 
 char	*init_ceil_numbers(t_parsing *parsing, t_vars *vars,
 		t_directions *directions)
@@ -35,36 +61,6 @@ char	*init_ceil_numbers(t_parsing *parsing, t_vars *vars,
 	}
 	line[j] = '\0';
 	return (line);
-}
-
-t_colors	*get_ceil_number(t_parsing *parsing, t_vars *vars,
-		t_directions *directions)
-{
-	int			i;
-	char		**string;
-	char		*line;
-	t_colors	*colors;
-
-	i = 0;
-	line = init_ceil_numbers(parsing, vars, directions);
-	colors = malloc(sizeof(t_colors));
-	if (!colors)
-		free_all_and_exit_two(parsing, vars, directions, line);
-	string = ft_split(line, ',');
-	if (!string)
-	{
-		free(line);
-		free(colors);
-		free_all_and_exit(parsing, vars, directions);
-	}
-	colors->ceil[0] = ft_atoi(string[0]);
-	colors->ceil[1] = ft_atoi(string[1]);
-	colors->ceil[2] = ft_atoi(string[2]);
-	free_string(string, i);
-	free(line);
-	get_floor_number(parsing, vars, directions, colors);
-	check_valid_numbers(parsing, vars, directions, colors);
-	return (colors);
 }
 
 void	assign_ceil(t_parsing *parsing, t_vars *vars, t_directions *directions,
@@ -102,7 +98,7 @@ void	check_number_on_ceil(t_parsing *parsing, t_vars *vars,
 		&& parsing->file[parsing->ceil_line][i] != 'C')
 	{
 		if ((parsing->file[parsing->ceil_line][i] != ' '
-				&& parsing->file[parsing->ceil_line][i] != '\t'))
+			&& parsing->file[parsing->ceil_line][i] != '\t'))
 			print_and_free(parsing, vars, directions,
 				"Error\nthere is somthing before ceil");
 		i++;

@@ -6,61 +6,23 @@
 /*   By: asaadeh <asaadeh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 18:56:44 by asaadeh           #+#    #+#             */
-/*   Updated: 2025/08/23 16:30:29 by asaadeh          ###   ########.fr       */
+/*   Updated: 2025/08/25 13:02:27 by asaadeh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-int	count_lines(char *file_name)
+void	finish_game(t_parsing *parsing, t_vars *vars, t_directions *directions,
+		t_colors *colors)
 {
-	int		fd;
-	int		i;
-	char	*line;
-
-	i = 0;
-	fd = open(file_name, O_RDONLY);
-	if (fd == -1)
-		return (0);
-	while ((line = get_next_line(fd)))
-	{
-		i++;
-		free(line);
-	}
-	close(fd);
-	return (i);
+	free_parsing(parsing);
+	free_directions(directions);
+	free_vars(vars);
+	if (colors)
+		free(colors);
+	exit(0);
 }
 
-char	**read_file(char *file_name)
-{
-	char	*line;
-	int		i;
-	int		len;
-	int		fd;
-	char	**file;
-
-	i = 0;
-	len = count_lines(file_name);
-	if (len <= 0)
-		return (NULL);
-	fd = open(file_name, O_RDONLY);
-	if (fd == -1)
-		return (NULL);
-	file = malloc(sizeof(char *) * (len + 1));
-	if (!file)
-	{
-		write(2, "Error\nmalloc error", 19);
-		return (NULL);
-	}
-	while ((line = get_next_line(fd)))
-	{
-		file[i] = line;
-		i++;
-	}
-	file[i] = NULL;
-	close(fd);
-	return (file);
-}
 int	valid_extension(char **argv)
 {
 	char	*name;
@@ -74,78 +36,32 @@ int	valid_extension(char **argv)
 	return (0);
 }
 
-void	check_lines(t_parsing *parsing, t_vars *vars, t_directions *directions)
+static int	is_map_line(t_parsing *parsing, int i)
 {
-	int	i;
 	int	j;
-	int	not_empty;
-	int	stop;
 
-	i = 0;
 	j = 0;
-	not_empty = 0;
-	stop = 0;
-	while (parsing->file[i])
+	while (parsing->file[i][j] && parsing->file[i][j] != '\n')
 	{
-		j = 0;
-		while (parsing->file[i][j] && parsing->file[i][j] != '\n')
-		{
-			if (parsing->file[i][j] == '1' && is_this_map(parsing, i))
-			{
-				stop = 1;
-				break ;
-			}
-			if (ft_isalnum(parsing->file[i][j]))
-			{
-				not_empty++;
-				break ;
-			}
-			j++;
-		}
-		if (stop)
-			break ;
-		i++;
+		if (parsing->file[i][j] == '1' && is_this_map(parsing, i))
+			return (1);
+		j++;
 	}
-	if (not_empty != 6)
-	{
-		write(2, "Error\nthe numbers of resources is wrong", 40);
-		free_all_and_exit(parsing, vars, directions);
-	}
-	init_ceil(parsing, vars, directions);
-	check_comma_in_ceil(parsing, vars, directions);
+	return (0);
 }
+
 int	first_line(t_parsing *parsing)
 {
 	int	i;
-	int	j;
-	int	save_line;
-	int	found;
 
 	i = 0;
-	j = 0;
-	save_line = 0;
-	found = 0;
 	while (parsing->file[i])
 	{
-		j = 0;
-		while (parsing->file[i][j] && parsing->file[i][j] != '\n')
-		{
-			if (parsing->file[i][j] == '1' && is_this_map(parsing, i))
-			{
-				save_line = i;
-				found = 1;
-				break ;
-			}
-			j++;
-		}
-		if (found)
-			break ;
+		if (is_map_line(parsing, i))
+			return (i);
 		i++;
 	}
-	if (!found)
-		return (0);
-	return (save_line);
-	return (1);
+	return (0);
 }
 
 int	main(int argc, char **argv)
@@ -175,10 +91,7 @@ int	main(int argc, char **argv)
 	vars = init_map(parsing);
 	if (!vars)
 		free_all_and_exit(parsing, vars, directions);
-	// check_image_path(parsing,vars,directions);
 	check_lines(parsing, vars, directions);
 	check_walls(parsing, vars, directions);
-	// print_map(vars);
 	init_colors(parsing, vars, directions);
-	// invalid char and ../
 }

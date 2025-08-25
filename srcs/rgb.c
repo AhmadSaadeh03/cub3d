@@ -12,6 +12,36 @@
 
 #include "../cub3d.h"
 
+t_colors	*get_ceil_number(t_parsing *parsing, t_vars *vars,
+		t_directions *directions)
+{
+	int			i;
+	char		**string;
+	char		*line;
+	t_colors	*colors;
+
+	i = 0;
+	line = init_ceil_numbers(parsing, vars, directions);
+	colors = malloc(sizeof(t_colors));
+	if (!colors)
+		free_all_and_exit_two(parsing, vars, directions, line);
+	string = ft_split(line, ',');
+	if (!string)
+	{
+		free(line);
+		free(colors);
+		free_all_and_exit(parsing, vars, directions);
+	}
+	colors->ceil[0] = ft_atoi(string[0]);
+	colors->ceil[1] = ft_atoi(string[1]);
+	colors->ceil[2] = ft_atoi(string[2]);
+	free_string(string, i);
+	free(line);
+	get_floor_number(parsing, vars, directions, colors);
+	check_valid_numbers(parsing, vars, directions, colors);
+	return (colors);
+}
+
 void	check_valid_numbers(t_parsing *parsing, t_vars *vars,
 		t_directions *directions, t_colors *colors)
 {
@@ -31,4 +61,32 @@ void	check_valid_numbers(t_parsing *parsing, t_vars *vars,
 		free(colors);
 		free_all_and_exit(parsing, vars, directions);
 	}
+}
+
+void	get_floor_number(t_parsing *parsing, t_vars *vars,
+		t_directions *directions, t_colors *colors)
+{
+	int		i;
+	char	**string;
+	char	*line;
+
+	i = 0;
+	line = init_floor_numbers(parsing, vars, directions);
+	if (!line)
+	{
+		free(colors);
+		free_all_and_exit(parsing, vars, directions);
+	}
+	string = ft_split(line, ',');
+	if (!string)
+	{
+		free(line);
+		free(colors);
+		free_all_and_exit(parsing, vars, directions);
+	}
+	colors->floor[0] = ft_atoi(string[0]);
+	colors->floor[1] = ft_atoi(string[1]);
+	colors->floor[2] = ft_atoi(string[2]);
+	free_string(string, i);
+	free(line);
 }

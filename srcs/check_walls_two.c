@@ -6,7 +6,7 @@
 /*   By: asaadeh <asaadeh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/23 16:04:00 by asaadeh           #+#    #+#             */
-/*   Updated: 2025/08/23 16:32:27 by asaadeh          ###   ########.fr       */
+/*   Updated: 2025/08/25 12:59:06 by asaadeh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static void	check_row_start(t_parsing *parsing, t_vars *vars,
 				first_char = vars->map[i][j];
 				if (first_char != '1')
 				{
-					printf("Error\nnot surrounded by walls (first index)\n");
+					write(2, "Error\nnot surrounded by walls first\n", 37);
 					free_all_and_exit(parsing, vars, directions);
 				}
 				break ;
@@ -62,7 +62,7 @@ static void	check_row_end(t_parsing *parsing, t_vars *vars,
 			last_char = vars->map[i][j];
 			if (last_char != '1')
 			{
-				printf("Error\nnot surrounded by walls (last index)\n");
+				write(2, "Error\nnot surrounded by walls last\n", 36);
 				free_all_and_exit(parsing, vars, directions);
 			}
 		}

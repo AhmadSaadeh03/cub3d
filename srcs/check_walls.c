@@ -6,7 +6,7 @@
 /*   By: asaadeh <asaadeh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/23 16:03:18 by asaadeh           #+#    #+#             */
-/*   Updated: 2025/08/23 16:11:46 by asaadeh          ###   ########.fr       */
+/*   Updated: 2025/08/25 13:45:23 by asaadeh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,25 +52,6 @@ static void	check_top_wall(t_parsing *parsing, t_vars *vars,
 	}
 }
 
-static void	check_bottom_wall(t_parsing *parsing, t_vars *vars,
-		t_directions *directions, int final_line)
-{
-	int	j;
-
-	j = 0;
-	while (vars->map[final_line][j] && vars->map[final_line][j] != '\n')
-	{
-		if (vars->map[final_line][j] == ' ' || vars->map[final_line][j] == '\t'
-			|| vars->map[final_line][j] == '1')
-			j++;
-		else
-		{
-			write(2, "Error\nthe map not surrounded by walls on bottom", 48);
-			free_all_and_exit(parsing, vars, directions);
-		}
-	}
-}
-
 void	check_walls(t_parsing *parsing, t_vars *vars, t_directions *directions)
 {
 	int	final_line;
@@ -79,6 +60,5 @@ void	check_walls(t_parsing *parsing, t_vars *vars, t_directions *directions)
 	check_taps(parsing, vars, directions);
 	final_line = get_last_line(vars, parsing);
 	check_top_wall(parsing, vars, directions);
-	check_bottom_wall(parsing, vars, directions, final_line);
 	check_walls_two(parsing, vars, directions);
 }

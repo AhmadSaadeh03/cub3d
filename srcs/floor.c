@@ -6,11 +6,37 @@
 /*   By: asaadeh <asaadeh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 20:16:11 by asaadeh           #+#    #+#             */
-/*   Updated: 2025/08/23 16:34:54 by asaadeh          ###   ########.fr       */
+/*   Updated: 2025/08/25 13:00:57 by asaadeh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
+
+void	check_letter_on_floor(t_parsing *parsing, t_vars *vars,
+		t_directions *directions)
+{
+	int		i;
+	int		count;
+	char	c;
+
+	i = 0;
+	count = 0;
+	while (parsing->file[parsing->floor_line][i] != '\n'
+		&& parsing->file[parsing->floor_line][i])
+	{
+		if (ft_isalpha(parsing->file[parsing->floor_line][i]))
+		{
+			c = parsing->file[parsing->floor_line][i];
+			count++;
+		}
+		i++;
+	}
+	if (count != 1 || c != 'F')
+	{
+		write(2, "Error\nto many letters on floor line", 36);
+		free_all_and_exit(parsing, vars, directions);
+	}
+}
 
 char	*init_floor_numbers(t_parsing *parsing, t_vars *vars,
 		t_directions *directions)
@@ -42,34 +68,6 @@ char	*init_floor_numbers(t_parsing *parsing, t_vars *vars,
 	return (line);
 }
 
-void	get_floor_number(t_parsing *parsing, t_vars *vars,
-		t_directions *directions, t_colors *colors)
-{
-	int		i;
-	char	**string;
-	char	*line;
-
-	i = 0;
-	line = init_floor_numbers(parsing, vars, directions);
-	if (!line)
-	{
-		free(colors);
-		free_all_and_exit(parsing, vars, directions);
-	}
-	string = ft_split(line, ',');
-	if (!string)
-	{
-		free(line);
-		free(colors);
-		free_all_and_exit(parsing, vars, directions);
-	}
-	colors->floor[0] = ft_atoi(string[0]);
-	colors->floor[1] = ft_atoi(string[1]);
-	colors->floor[2] = ft_atoi(string[2]);
-	free_string(string, i);
-	free(line);
-}
-
 void	check_number_on_floor(t_parsing *parsing, t_vars *vars,
 		t_directions *directions)
 {
@@ -81,7 +79,7 @@ void	check_number_on_floor(t_parsing *parsing, t_vars *vars,
 		&& parsing->file[parsing->floor_line][i] != 'F')
 	{
 		if ((parsing->file[parsing->floor_line][i] != ' '
-				&& parsing->file[parsing->floor_line][i] != '\t'))
+			&& parsing->file[parsing->floor_line][i] != '\t'))
 			print_and_free(parsing, vars, directions,
 				"Error\nthere is somthing before floor");
 		i++;

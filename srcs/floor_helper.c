@@ -6,7 +6,7 @@
 /*   By: asaadeh <asaadeh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 17:39:49 by asaadeh           #+#    #+#             */
-/*   Updated: 2025/08/23 16:36:44 by asaadeh          ###   ########.fr       */
+/*   Updated: 2025/08/25 13:01:42 by asaadeh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ static void	check_comma_pos_f(t_parsing *parsing, t_vars *vars,
 		t_directions *directions, int i)
 {
 	if (!ft_isdigit(parsing->floor[i + 1]) || !ft_isdigit(parsing->floor[i
-			- 1]))
+				- 1]))
 	{
 		write(2, "Error\nafter and before comma should be number in floor line",
 			60);
