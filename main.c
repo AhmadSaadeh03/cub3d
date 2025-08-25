@@ -3,17 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: maemran < maemran@student.42amman.com>     +#+  +:+       +#+        */
+/*   By: maemran <maemran@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/21 14:29:35 by maemran           #+#    #+#             */
-/*   Updated: 2025/08/25 10:50:25 by maemran          ###   ########.fr       */
+/*   Updated: 2025/08/25 13:30:05 by maemran          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
-void    parsing_part(t_vars *data, t_directions *dir, t_colors *colors);
-void init_map(t_vars *g);
 
 int	rendering(t_cub3d *g)
 {
@@ -72,29 +69,29 @@ void	mlx_manage(t_cub3d *g)
 	mlx_loop(g->data->mlx);
 }
 
-int main(int argc, char **argv)
-{
-    (void)argc;
-    (void)argv;
-    t_cub3d *g;
+// int magfgfdgdfin(int argc, char **argv)
+// {
+//     (void)argc;
+//     (void)argv;
+//     t_cub3d *g;
     
-    /*************************************/
-    /********** PARSING PART ************/
-    /***********************************/
+//     /*************************************/
+//     /********** PARSING PART ************/
+//     /***********************************/
     
-    t_vars  *data = malloc(sizeof(t_vars));
-    t_colors *colors = malloc(sizeof(t_colors));
-    t_directions    *dir = malloc(sizeof(t_directions));
+//     t_vars  *data = malloc(sizeof(t_vars));
+//     t_colors *colors = malloc(sizeof(t_colors));
+//     t_directions    *dir = malloc(sizeof(t_directions));
 
-    parsing_part(data, dir, colors);
-    /*********************************/
-    g = NULL;
-    g = prepare_before_ray_casting(g, colors, data, dir);
-    if (!g)
-    {
-        ft_putstr_fd("Error\nMemory allocation failure\n", 2);
-        return (1);
-    }
-    mlx_manage(g);
-    return (0);
-}
+//     parsing_part(data, dir, colors);
+//     /*********************************/
+//     g = NULL;
+//     g = prepare_before_ray_casting(g, colors, data, dir);
+//     if (!g)
+//     {
+//         ft_putstr_fd("Error\nMemory allocation failure\n", 2);
+//         return (1);
+//     }
+//     mlx_manage(g);
+//     return (0);
+// }
