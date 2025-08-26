@@ -54,7 +54,7 @@ $(OBJ_DIR):
 
 clean:
 	$(MAKE) clean -C $(LIBFT_DIR)
-	rm -f $(OBJ)
+	rm -fr $(OBJ_DIR)
 
 fclean: clean
 	$(MAKE) fclean -C $(LIBFT_DIR)
