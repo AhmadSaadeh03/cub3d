@@ -3,19 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asaadeh <asaadeh@student.42.fr>            +#+  +:+       +#+        */
+/*   By: maemran <maemran@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/21 14:29:35 by maemran           #+#    #+#             */
-/*   Updated: 2025/08/25 16:29:45 by asaadeh          ###   ########.fr       */
+/*   Updated: 2025/08/26 12:55:48 by maemran          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../cub3d.h"
+#include "cub3d.h"
 
 static void	program_check(int argc, char **argv)
 {
 	if (argc != 2)
+	{
+		write(2, "Error\nwrong number of arguments\n", 33);
 		exit(1);
+	}
 	if (!valid_extension(argv))
 	{
 		write(2, "Error\n the extension of the file is wrong", 42);
