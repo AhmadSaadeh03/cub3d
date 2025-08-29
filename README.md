@@ -4,7 +4,9 @@ Cub3D is a **mini 3D game engine** built in C as part of the 42 curriculum, insp
 It uses the **raycasting technique** to render a first-person view inside a maze-like environment.  
 The project was developed to strengthen skills in **graphics programming, memory management, and low-level system handling** without external game engines.
 
+
 ---
+![Uploading Screenshot 2025-08-29 142132.png…]()
 
 ## 🚀 Features
 - **Raycasting Engine**: Real-time rendering of a 3D environment from a 2D map.  
