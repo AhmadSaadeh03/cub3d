@@ -27,9 +27,9 @@ The project was developed to strengthen skills in **graphics programming, memory
 
 ## 📂 Project Structure
 cub3d/
-│── src/ # Source code files
-│── includes/ # Header files
-│── textures/ # Wall textures
-│── maps/ # Example .cub maps
-│── Makefile # Build system
+  │── src/ # Source code files
+  │── includes/ # Header files
+  │── textures/ # Wall textures
+  │── maps/ # Example .cub maps
+  │── Makefile # Build system
 
