@@ -6,7 +6,6 @@ The project was developed to strengthen skills in **graphics programming, memory
 
 
 ---
-![Uploading Screenshot 2025-08-29 142132.png…]()
 
 ## 🚀 Features
 - **Raycasting Engine**: Real-time rendering of a 3D environment from a 2D map.  
